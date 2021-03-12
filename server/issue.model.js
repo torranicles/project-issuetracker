@@ -18,8 +18,7 @@ const issueSchema = new mongoose.Schema({
     created_by: {
         type: String,
         required: true,
-        trim: true,
-        minlength: 6
+        trim: true
     },
     assigned_to: {
         type: String,

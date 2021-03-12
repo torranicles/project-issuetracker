@@ -30,14 +30,16 @@ app.route('/api/issues/:project')
     })
     
     .post((req, res) => {
+        let {issue_title, issue_text, created_by, assigned_to, status_text} = req.body;
+        console.log(req.body)
         const newIssue = new Issue({
-            issue_title: req.body.issue_title,
-            issue_text: req.body.issue_text,
+            issue_title: issue_title,
+            issue_text: issue_text,
             created_on: new Date().toUTCString(),
             updated_on: new Date().toUTCString(),
-            created_by: req.body.created_by,
-            assigned_to: req.body.assigned_to,
-            status_text: req.body.status_text,
+            created_by: created_by,
+            assigned_to: assigned_to,
+            status_text: status_text,
             project: req.params.project
         });
         if (!newIssue.issue_title || !newIssue.issue_text || !newIssue.created_by) {
