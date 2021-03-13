@@ -59,19 +59,9 @@ class App extends React.Component {
     }
     render() {
         return (
-            <Router>
-                <Switch>
-                    {
-                        <Route exact path="/" render={props => {
-                            return <Home 
-                                {...props}
-                                logged_in={this.state.logged_in}
-                                handleLogin={this.handleLogin}
-                            />} 
-                        }/>
-                    }
-                    </Switch>
-            </Router>
+            <div>
+
+            </div>
         )
     }
 }
