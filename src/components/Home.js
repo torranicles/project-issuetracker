@@ -37,7 +37,7 @@ class Home extends React.Component {
                 <form className={`${styles.searchContainer} shadow`} onSubmit={this.handleSearch}>
                     <input type="text" 
                         onChange={this.handleChange} 
-                        placeholder="Enter project name..."
+                        placeholder="Project name..."
                         className="form-control"
                         style={{
                             padding: '5%',
@@ -46,7 +46,9 @@ class Home extends React.Component {
                     />
                     <input className="btn btn-primary px-5" type="submit" value="Search"/>
                 </form>
-                <Link to="/projects">Test</Link>
+                <div className={styles.projectsLink}>
+                    <Link to="/projects">View all issues</Link>
+                </div>
             </div>
         )
     }
