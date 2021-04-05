@@ -1,4 +1,7 @@
-body {
+.bg {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
     background-image: url('./img/plan.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -8,6 +11,7 @@ body {
 }
 
 .head {
+    display: inline-block;
     margin: 7% 0 0 8%;
     font-size: 4rem;
     font-family: 'Cantata One', serif;
@@ -17,7 +21,7 @@ body {
     width: 40vw;
 }
 
-.search-container {
+.searchContainer {
     display: flex;
     border-radius: .5rem;
     background-color: white;

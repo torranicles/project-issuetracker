@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import '../Home.css'
+import styles from '../Home.module.css'
 
 class Home extends React.Component {
     constructor(props) {
@@ -30,11 +30,11 @@ class Home extends React.Component {
     }
     render() {
         return (
-            <div>
-                <h1 className="head">
+            <div className={styles.bg}>
+                <h1 className={styles.head}>
                     issue tracker
                 </h1>
-                <form className="search-container shadow" onSubmit={this.handleSearch}>
+                <form className={`${styles.searchContainer} shadow`} onSubmit={this.handleSearch}>
                     <input type="text" 
                         onChange={this.handleChange} 
                         placeholder="Enter project name..."
