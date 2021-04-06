@@ -47,7 +47,7 @@ class Home extends React.Component {
                     <input className="btn btn-primary px-5" type="submit" value="Search"/>
                 </form>
                 <div className={styles.projectsLink}>
-                    <Link to="/projects">View all issues</Link>
+                    <Link to="/projects-issues">View all issues</Link>
                 </div>
             </div>
         )

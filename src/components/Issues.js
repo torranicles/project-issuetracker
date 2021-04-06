@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../Projects.module.css'
 
-class Projects extends React.Component {
+class Issues extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -54,4 +54,4 @@ class Projects extends React.Component {
     }
 }
 
-export default Projects;
+export default Issues;
