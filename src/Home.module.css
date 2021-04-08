@@ -36,9 +36,13 @@
     cursor: pointer;
 }
 
+.addBtn:hover span {
+    text-decoration: underline;
+}
+
 .formContainer {
     width: 60%;
-    background-color: rgba(20, 9, 82, 0.9);
+    background-color: rgba(26, 26, 26, 0.9);
     border-radius: .5rem;
     padding: 3% 7%;
     color: white;
