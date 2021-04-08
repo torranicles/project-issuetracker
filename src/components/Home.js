@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import styles from '../Home.module.css'
+import AddIssue from './AddIssue.js'
 
 class Home extends React.Component {
     constructor(props) {
@@ -8,10 +9,17 @@ class Home extends React.Component {
         this.state = {
             username: '',
             search: '',
-            message: ''
+            message: '',
+            viewForm: false
         }
         this.handleChange = this.handleChange.bind(this);
-        this.handleSearch = this.handleSearch.bind(this)
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleViewForm = this.handleViewForm.bind(this);
+    }
+    handleViewForm() {
+        this.setState({
+            viewForm: !this.state.viewForm
+        })
     }
 
     handleChange(e) {
@@ -57,10 +65,20 @@ class Home extends React.Component {
                         />
                         <input className="btn btn-primary px-5" type="submit" value="Search"/>
                     </form>
-                    <div className={styles.addBtn}>
-                        <i className="fas fa-folder-plus mr-2 text-primary"/><span>Create a new project</span>
+                    <div className={styles.addBtn} onClick={this.handleViewForm}>
+                        <i className="fas fa-folder-plus mr-2 text-primary"/><span>Start a new issue</span>
                     </div>
                 </div>
+                {
+                    this.state.viewForm 
+                    ? <div className="d-flex align-items-center justify-content-center w-50 h-100">
+                        <div className={styles.formContainer}>
+                            <AddIssue/>
+                        </div>
+                    </div>
+                    : null
+                }
+                
             </div>
         )
     }
