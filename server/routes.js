@@ -8,12 +8,12 @@ module.exports = function (app) {
         Issue.find({
             project: project
         })
-            .select('-__v -project')
+            .select('-__v')
             .exec((err, doc) => {
                 if (err) {
                     console.log(err)
                 } else {
-                    res.json(doc)
+                    res.send(doc)
                 }
             })
     })
@@ -46,7 +46,7 @@ module.exports = function (app) {
         })
         
         .post((req, res) => {
-            let {issue_title, issue_text, created_by, assigned_to, status_text} = req.body;
+            let {project, issue_title, issue_text, created_by, assigned_to, status_text} = req.body;
             console.log(req.body)
             const newIssue = new Issue({
                 issue_title: issue_title,
@@ -56,7 +56,7 @@ module.exports = function (app) {
                 created_by: created_by,
                 assigned_to: assigned_to,
                 status_text: status_text,
-                project: req.params.project
+                project: project
             });
             if (!newIssue.issue_title || !newIssue.issue_text || !newIssue.created_by) {
                 res.json({
@@ -68,7 +68,7 @@ module.exports = function (app) {
                 if (err) {-
                     console.log(err)
                 }
-                res.json(data)
+                res.send("New issue added")
             })
         })
         
