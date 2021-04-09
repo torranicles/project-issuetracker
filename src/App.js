@@ -17,7 +17,7 @@ class App extends React.Component {
                                 {...props}
                             />} 
                         }/>
-                    <Route exact path="/projects-issues" component={Issues}/>
+                    <Route exact path="/projects-issues/:project" component={Issues}/>
                 </Switch>
             </Router>
         )
