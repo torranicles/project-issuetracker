@@ -12,7 +12,7 @@ class Issues extends React.Component {
                 <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
                     <a className="navbar-brand" href="/projects/#project-issue-tracker">Project Issue Tracker</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                        <span class="navbar-toggler-icon"></span>
+                        <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="collapsibleNavbar">
                         <ul className="navbar-nav d-flex justify-content-end w-100">
@@ -26,7 +26,9 @@ class Issues extends React.Component {
                                         placeholder="Search"
                                         className="form-control"
                                     />
-                                    <button className="btn" type="submit"><i class="fas fa-search text-light"/></button>
+                                    <button className="btn" type="submit"> 
+                                        <i className="fas fa-search text-light"/>
+                                    </button>
                                 </form>
                             </li>
                         </ul>
