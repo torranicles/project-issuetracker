@@ -1,28 +1,33 @@
 const AddIssue = (props) => {
     return (
         <div className="w-100">
-            <form>
+            <form onSubmit={props.handleSubmit}>
+                <i className="fas fa-times float-right" onClick={props.handleCloseForm}></i>
                 <h1>New issue</h1>
                 <br/>
                 <div className="form-group">
-                    <label for="Project name">Project name:</label>
-                    <input type="text" className="form-control"/>
+                    <label htmlFor="Project name">Project name:</label>
+                    <input onChange={props.handleChange} name="project" type="text" className="form-control" required/>
                 </div>
                 <div className="form-group">
-                    <label for="Issue title">Issue title:</label>
-                    <input type="text" className="form-control"/>
+                    <label htmlFor="Issue title">Issue title:</label>
+                    <input onChange={props.handleChange} name="issue_title" type="text" className="form-control" required/>
                 </div>
                 <div className="form-group">
-                    <label for="Description">Description:</label>
-                    <input type="text" className="form-control"/>
+                    <label htmlFor="Description">Description:</label>
+                    <input onChange={props.handleChange} name="issue_text" type="text" className="form-control" required/>
                 </div>
                 <div className="form-group">
-                    <label for="Created by">Created by:</label>
-                    <input type="text" className="form-control"/>
+                    <label htmlFor="Created by">Created by:</label>
+                    <input onChange={props.handleChange} name="created_by" type="text" className="form-control" required/>
                 </div>
                 <div className="form-group">
-                    <label for="Status">Status:</label>
-                    <input type="text" className="form-control"/>
+                    <label htmlFor="Assigned to">Assigned to:</label>
+                    <input onChange={props.handleChange} name="assigned_to" type="text" className="form-control"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="Status">Status:</label>
+                    <input onChange={props.handleChange} name="status_text" type="text" className="form-control"/>
                 </div>
                 <div className="text-center">
                     <input type="submit" className="btn btn-outline-light"/>

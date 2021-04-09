@@ -10,7 +10,7 @@ class Issues extends React.Component {
         return (
             <div>
                 <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
-                    <a className="navbar-brand" href="/projects/#project-issue-tracker">Project Issue Tracker</a>
+                    <a className="navbar-brand" href="/">Project Issue Tracker</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                         <span className="navbar-toggler-icon"></span>
                     </button>
