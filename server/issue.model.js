@@ -5,13 +5,13 @@ const issueSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 3
+        minlength: [3, "Issue title must be at least 3 characters."]
     },
     issue_text: {
         type: String,
         required: true,
         trim: true,
-        maxlength: 300
+        maxlength: 100
     }, 
     created_on: String,
     updated_on: String,
