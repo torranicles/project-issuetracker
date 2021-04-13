@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom'
 import Issues from './components/Issues'
 import Home from './components/Home'
 import axios from 'axios'
@@ -71,25 +71,23 @@ class App extends React.Component {
     render() {
         console.log(this.state)
         return (
-            <Router>
-                <Switch>
-                    <Route exact path="/" render={props => {
-                            return <Home 
-                                {...props} 
-                                handleSearch={this.handleSearch}
-                                handleSearchChange={this.handleSearchChange}
-                                handleViewForm={this.handleViewForm}
-                                handleCloseForm={this.handleCloseForm}
-                                handleFormChange={this.handleFormChange}
-                                handleSubmit={this.handleSubmit}
-                                viewForm={this.state.viewForm}
-                            />} 
-                        }/>
-                    <Route exact path="/projects-issues/:project" component={Issues}/>
-                </Switch>
-            </Router>
+            <Switch>
+                <Route exact path="/" render={props => {
+                        return <Home 
+                            {...props} 
+                            handleSearch={this.handleSearch}
+                            handleSearchChange={this.handleSearchChange}
+                            handleViewForm={this.handleViewForm}
+                            handleCloseForm={this.handleCloseForm}
+                            handleFormChange={this.handleFormChange}
+                            handleSubmit={this.handleSubmit}
+                            viewForm={this.state.viewForm}
+                        />} 
+                    }/>
+                <Route exact path="/projects-issues/:project" component={Issues}/>
+            </Switch>
         )
     }
 }
 
-export default App;
+export default withRouter(App);
