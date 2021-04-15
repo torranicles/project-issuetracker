@@ -8,7 +8,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
+            confirm: false,
             search: '',
             message: '',
             viewForm: false
@@ -66,10 +66,28 @@ class App extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         axios.post('/api/issues/add', this.state)
-            .then(res => console.log(res))
+            .then(res => {
+                if (res.data.includes('exists.')) {
+                    this.setState({
+                        message: res.data,
+                        confirm: true //Used on second click/confirm
+                    })
+                    console.log(res)
+                } else if (res.data[0].includes('Issue title')) {
+                    this.setState({
+                        message: res.data
+                    })
+                } else {
+                    console.log(res)
+                    this.setState({
+                        confirm: false, //Set to initial state
+                        message: ''
+                    })
+                }
+            })
     }
+
     render() {
-        console.log(this.state)
         return (
             <Switch>
                 <Route exact path="/" render={props => {
@@ -82,6 +100,7 @@ class App extends React.Component {
                             handleFormChange={this.handleFormChange}
                             handleSubmit={this.handleSubmit}
                             viewForm={this.state.viewForm}
+                            message={this.state.message}
                         />} 
                     }/>
                 <Route exact path="/projects-issues/:project" component={Issues}/>

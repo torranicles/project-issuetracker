@@ -46,8 +46,7 @@ module.exports = function (app) {
         })
         
         .post((req, res) => {
-            let {project, issue_title, issue_text, created_by, assigned_to, status_text} = req.body;
-            console.log(req.body)
+            let { project, issue_title, issue_text, created_by, assigned_to, status_text, confirm } = req.body;
             const newIssue = new Issue({
                 issue_title: issue_title,
                 issue_text: issue_text,
@@ -58,17 +57,35 @@ module.exports = function (app) {
                 status_text: status_text,
                 project: project
             });
-            if (!newIssue.issue_title || !newIssue.issue_text || !newIssue.created_by) {
-                res.json({
-                    error: 'required field(s) missing'
-                })
-            } //Can be handled by browser
 
-            newIssue.save((err, data) => {
-                if (err) {-
+            Issue.find({
+                project: project
+            }, (err, doc) => {
+                if (err) {
                     console.log(err)
+                } else if (confirm) { //true only if form is once submitted
+                    newIssue.save((err, data) => {
+                        if (err) {
+                            if (err.name == 'ValidationError') {
+                                return res.send(Object.values(err.errors).map(val => val.message))
+                            }
+                        } else {
+                            return res.send("New issue added!")
+                        }
+                    })
+                } else if (doc.length) {
+                    return res.send(`Project name already exists. Do you want to add issue on ${project}?`)
+                } else {
+                    newIssue.save((err, data) => {
+                        if (err) {
+                            if (err.name == 'ValidationError') {
+                                return res.send(Object.values(err.errors).map(val => val.message))
+                            }
+                        } else {
+                            return res.send("New issue added!")
+                        }
+                    })
                 }
-                res.send("New issue added")
             })
         })
         

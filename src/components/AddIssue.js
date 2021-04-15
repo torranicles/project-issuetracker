@@ -29,8 +29,19 @@ const AddIssue = (props) => {
                     <label htmlFor="Status">Status:</label>
                     <input onChange={props.handleChange} name="status_text" type="text" className="form-control"/>
                 </div>
+                {
+                    props.message
+                    ? props.message
+                    : null
+                }
                 <div className="text-center">
-                    <input type="submit" className="btn btn-outline-light"/>
+                    <button type="submit" className="btn btn-outline-light">
+                        {
+                            props.message
+                            ? 'Confirm'
+                            : 'Submit'
+                        }
+                    </button>
                 </div>
             </form>
         </div>
