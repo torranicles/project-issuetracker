@@ -22,15 +22,9 @@ module.exports = function (app) {
 
         .get((req, res) => {
             let project = req.params.project;
-            Issue.find(
-                objKeys.length > 0 
-                ? {
+            Issue.find({
                     project: project
-                }
-                : {
-                    project: project
-                }
-                )
+                })
                 .select('-__v -project')
                 .exec((err, data) => {
                     if (err) {
