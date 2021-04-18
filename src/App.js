@@ -16,7 +16,7 @@ class App extends React.Component {
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
+        this.handleProjectSearch = this.handleProjectSearch.bind(this);
         this.handleViewForm = this.handleViewForm.bind(this);
         this.handleCloseForm = this.handleCloseForm.bind(this);
     }
@@ -38,7 +38,7 @@ class App extends React.Component {
         })
     }
 
-    handleSearch(e) {
+    handleProjectSearch(e) {
         e.preventDefault();
         axios.get('/search', {
             params: {
@@ -90,10 +90,13 @@ class App extends React.Component {
     render() {
         return (
             <Switch>
-                <Route exact path="/" render={props => {
+                <Route 
+                    exact 
+                    path="/" 
+                    render={props => {
                         return <Home 
                             {...props} 
-                            handleSearch={this.handleSearch}
+                            handleProjectSearch={this.handleProjectSearch}
                             handleSearchChange={this.handleSearchChange}
                             handleViewForm={this.handleViewForm}
                             handleCloseForm={this.handleCloseForm}
@@ -103,7 +106,15 @@ class App extends React.Component {
                             message={this.state.message}
                         />} 
                     }/>
-                <Route exact path="/projects-issues/:project" component={Issues}/>
+                <Route 
+                exact 
+                    path="/projects-issues/:project" 
+                    render={props => {
+                        return <Issues 
+                            {...props}
+                            handleFormChange={this.handleFormChange}
+                        />
+                    }}/>
             </Switch>
         )
     }

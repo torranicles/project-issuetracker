@@ -1,14 +1,10 @@
 import React from 'react';
 import styles from '../Issues.module.css'
 
-class Issues extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
-    render() {
-        return (
-            <div>
+const Issues = (props) => {
+    return (
+        <div>
                 <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
                     <a className="navbar-brand" href="/">Project Issue Tracker</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -20,9 +16,9 @@ class Issues extends React.Component {
                                 <a className="nav-link text-light" href="/projects/#">New Project</a>
                             </li>
                             <li className="nav-item">
-                                <form className="d-flex" onSubmit={this.handleSearch}>
+                                <form className="d-flex" onSubmit={props.handleSearch}>
                                     <input type="text" 
-                                        onChange={this.handleChange} 
+                                        onChange={props.handleFormChange} 
                                         placeholder="Search"
                                         className="form-control"
                                     />
@@ -58,8 +54,7 @@ class Issues extends React.Component {
                     </div>
                 </div>
             </div>
-        )
-    }
+    )
 }
 
 export default Issues;
