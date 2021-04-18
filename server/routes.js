@@ -21,15 +21,11 @@ module.exports = function (app) {
     app.route('/api/issues/:project')
 
         .get((req, res) => {
-            let queries = req.query;
-            let objKeys = Object.keys(queries);
             let project = req.params.project;
-
             Issue.find(
                 objKeys.length > 0 
                 ? {
-                    project: project, 
-                    ...queries
+                    project: project
                 }
                 : {
                     project: project

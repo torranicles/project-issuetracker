@@ -9,7 +9,7 @@ const Home = (props) => {
                     <h1 className={styles.head}>
                         issue tracker
                     </h1>
-                    <form className={`${styles.searchContainer} shadow`} onSubmit={props.handleSearch}>
+                    <form className={`${styles.searchContainer} shadow`} onSubmit={props.handleProjectSearch}>
                         <input type="text" 
                             onChange={props.handleSearchChange} 
                             placeholder="Project name..."

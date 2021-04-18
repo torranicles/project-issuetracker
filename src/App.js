@@ -85,6 +85,7 @@ class App extends React.Component {
                     })
                 }
             })
+            .catch(err => console.log(err))
     }
 
     render() {
@@ -112,6 +113,7 @@ class App extends React.Component {
                     render={props => {
                         return <Issues 
                             {...props}
+                            project={this.state.search}
                             handleFormChange={this.handleFormChange}
                         />
                     }}/>

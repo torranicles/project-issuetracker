@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import styles from '../Issues.module.css'
+import { useParams } from 'react-router-dom'
 
 
 const Issues = (props) => {
+    let params = useParams();
+    useEffect(() => {
+        axios.get(`/api/issues/${params.project}`)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }, [])
     return (
         <div>
                 <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
