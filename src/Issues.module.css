@@ -23,3 +23,30 @@
     color: rgb(108,117,125);
     font-size: 27px;
 }
+
+.issuesContainer {
+    min-height: 1%;
+    width: 90%;
+    margin: 2% auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 4%;
+}
+
+.issueCard {
+    height: 350px;
+    background-color: white;
+    padding: 20px;
+    border-radius: .5rem;
+    position: relative;
+}
+
+.detailContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 1%;
+    padding: 0 20px;
+    border: 1px solid red;
+}

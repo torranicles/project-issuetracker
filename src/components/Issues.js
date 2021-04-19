@@ -6,9 +6,13 @@ import { useParams } from 'react-router-dom'
 
 const Issues = (props) => {
     let params = useParams();
+    const [issues, setIssues] = useState([]) 
+
     useEffect(() => {
         axios.get(`/api/issues/${params.project}`)
-            .then(res => console.log(res))
+            .then(res => {
+                setIssues(res.data);
+            })
             .catch(err => console.log(err))
     }, [])
     return (
@@ -60,6 +64,26 @@ const Issues = (props) => {
                         <i className={`${styles.addBtn} fas fa-plus-square mr-3`}/>
                         <button className="btn btn-danger">Delete all</button>
                     </div>
+                </div>
+                <div className={styles.issuesContainer}>
+                    {
+                        issues.length
+                        ? issues.map(el => {
+                            return  <div className={styles.issueCard}>
+                                        <h1>{el.issue_title}</h1>
+                                        <span>Created on {el.created_on.slice(0,16)}</span>
+                                        <p className="pt-3">{el.issue_text}</p>
+                                        <div className={styles.detailContainer}>
+                                            <span>Created by {el.created_by}</span>
+                                            <br/>
+                                            <span>Assigned to {el.assigned_to}</span>
+                                            <br/>
+                                            <span className="float-right">Updated on {el.updated_on.slice(0,16)}</span>
+                                        </div>
+                                    </div>
+                        })
+                        : null
+                    }
                 </div>
             </div>
     )
