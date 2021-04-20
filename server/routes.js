@@ -40,8 +40,8 @@ module.exports = function (app) {
             const newIssue = new Issue({
                 issue_title: issue_title,
                 issue_text: issue_text,
-                created_on: new Date().toUTCString(),
-                updated_on: new Date().toUTCString(),
+                created_on: new Date(),
+                updated_on: new Date(),
                 created_by: created_by,
                 assigned_to: assigned_to,
                 status_text: status_text,
