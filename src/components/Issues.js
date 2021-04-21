@@ -70,33 +70,43 @@ const Issues = (props) => {
                     issues.length
                     ? issues.map(el => {
                         return  <div className="col-sm-3 float-left px-4 mb-4">
-                                    <div className={styles.issueCard}>
+                                    <div className={`${styles.issueCard} card`}>
                                         <div className={styles.titleContainer}>
+                                            <i  className="fas fa-circle float-right pt-3"
+                                                style={{
+                                                    fontSize: '.75rem',
+                                                    color:  el.open
+                                                            ? 'rgb(40,167,69)' //Green if open/true
+                                                            : 'rgb(220,53,69)' //Red if closed/false
+                                                }}/>
                                             <h1 className={styles.title}>
                                                 {el.issue_title}
                                             </h1>
                                             <span style={{
                                                 color: "lightgray"
                                             }}>
-                                                Created on {new Date(el.created_on).toLocaleDateString()}
+                                                {
+                                                    el.created_on !== el.updated_on
+                                                    ? `Updated ${new Date(el.updated_on).toLocaleDateString()}`
+                                                    : `Created ${new Date(el.created_on).toLocaleDateString()}`
+                                                }
                                             </span>
                                         </div>
-                                        <div className={styles.textContainer}>
-                                            <p>
+                                        <div className="card-body w-100 h-100 p-0">
+                                            <div className={styles.textContainer}>
                                                 {el.issue_text}
-                                            </p>
+                                            </div>
+                                            <div className={styles.status}>
+                                                <b>Status:</b> {el.status_text}
+                                            </div>
                                         </div>
-                                        <div className={styles.detailContainer}>
+                                        <div className={`${styles.persons} py-2 card-footer bg-white`}>
                                             <span>
                                                 Created by {el.created_by}
                                             </span>
                                             <br/>
                                             <span>
                                                 Assigned to {el.assigned_to}
-                                            </span>
-                                            <br/>
-                                            <span className="float-right">
-                                                Updated on {el.updated_on.slice(0,16)}
                                             </span>
                                         </div>
                                     </div>
