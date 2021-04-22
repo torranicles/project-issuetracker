@@ -35,14 +35,13 @@
     height: 350px;
     background-color: white;
     border-radius: .25rem;
-    position: relative;
-    border: 1px solid darkgray;
+    border: 1px solid darkgray !important;
     color: rgb(105, 105, 105);
 }
 
 .titleContainer {
     margin: 0;
-    background-color: rgb(90,98,104);
+    background-color: rgb(66, 73, 78);
     color: white;
     padding: 0 20px 5px;
     border-top-left-radius: .25rem;
@@ -65,8 +64,7 @@
 .status {
     padding: 5px 20px;
     height: 20%;
-    background-color: #7e7e7e;
-    color: white;
+    background-color: #f3f3f3;
     word-wrap: break-word;
     overflow: auto;
 }

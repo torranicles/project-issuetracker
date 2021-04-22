@@ -2,19 +2,41 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
+import ReactTooltip from 'react-tooltip'
 
 
 const Issues = (props) => {
     let params = useParams();
-    const [issues, setIssues] = useState([]) 
+    const [issues, setIssues] = useState([]) ;
+    const [issueCount, setIssueCount] = useState({
+        open: 0,
+        closed: 0
+    })
 
     useEffect(() => {
         axios.get(`/api/issues/${params.project}`)
             .then(res => {
+                let openCount = 0;
+                let closedCount = 0;
                 setIssues(res.data);
+
+                //Set issue counts
+                if (res.data.length) { 
+                    res.data.map(elem => {
+                        if (elem.open) {
+                            openCount = openCount + 1;
+                        } else {
+                            closedCount = closedCount + 1;
+                        }
+                    })
+                    setIssueCount({
+                        open: openCount,
+                        close: closedCount
+                    })
+                }
             })
             .catch(err => console.log(err))
-    }, [])
+    }, []);
     return (
         <div>
             <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
@@ -53,11 +75,29 @@ const Issues = (props) => {
                         <a className="dropdown-item" href="/#">Date updated</a>
                     </div>
                 </div>
-                <span className={`${styles.issueCount} bg-dark`}>0</span>
+                <span className={`${styles.issueCount} bg-dark`}>
+                    {
+                        issues.length
+                        ? issues.length
+                        : "0"
+                    }
+                </span>
                 <span className="mr-3">All issues</span>
-                <span className={`${styles.issueCount} bg-success`}>0</span>
+                <span className={`${styles.issueCount} bg-success`}>
+                    {
+                        issues.length
+                        ? issueCount.open
+                        : "0"
+                    }
+                </span>
                 <span className="mr-3">Open</span>
-                <span className={`${styles.issueCount} bg-danger`}>0</span>
+                <span className={`${styles.issueCount} bg-danger`}>
+                {
+                        issues.length
+                        ? issueCount.close
+                        : "0"
+                    }
+                </span>
                 <span className="mr-3">Closed</span>
                 </div>
                 <div className="w-50 h-100 d-flex justify-content-end align-items-center">
@@ -69,7 +109,7 @@ const Issues = (props) => {
                 {
                     issues.length
                     ? issues.map(el => {
-                        return  <div className="col-sm-3 float-left px-4 mb-4">
+                        return  <div className="col-sm-3 float-left px-4 mb-5">
                                     <div className={`${styles.issueCard} card`}>
                                         <div className={styles.titleContainer}>
                                             <i  className="fas fa-circle float-right pt-3"
@@ -82,6 +122,29 @@ const Issues = (props) => {
                                             <h1 className={styles.title}>
                                                 {el.issue_title}
                                             </h1>
+                                            <div className="float-right">
+                                                <i className="far fa-edit mr-2 text-primary" 
+                                                    data-tip="Edit" 
+                                                    data-for="edit"
+                                                    style={{
+                                                        cursor: 'pointer'
+                                                    }}/>
+                                                <ReactTooltip place="bottom" effect="solid" id="edit"/>
+                                                <i className="far fa-trash-alt mr-2 text-danger" 
+                                                    data-tip="Delete" 
+                                                    data-for="delete"
+                                                    style={{
+                                                        cursor: 'pointer'
+                                                    }}/>
+                                                <ReactTooltip place="bottom" effect="solid" id="delete"/>
+                                                <i className="far fa-times-circle text-success" 
+                                                    data-tip="Close" 
+                                                    data-for="close"
+                                                    style={{
+                                                        cursor: 'pointer'
+                                                    }}/>
+                                                <ReactTooltip place="bottom" effect="solid" id="close"/>
+                                            </div>
                                             <span style={{
                                                 color: "lightgray"
                                             }}>
