@@ -22,8 +22,13 @@ module.exports = function (app) {
 
         .get((req, res) => {
             let project = req.params.project;
-            Issue.find({
+            Issue.find(
+                !req.query.open
+                ? {
                     project: project
+                }
+                : {
+                    open: req.query.open
                 })
                 .select('-__v -project')
                 .exec((err, data) => {
@@ -80,22 +85,18 @@ module.exports = function (app) {
         })
         
         .put(function (req, res){
+            let id = req.query.id;
             let updates = {};
             for (const [key, value] of Object.entries(req.body)) {
                 if (value != '') {
                     updates[key] = value
                 }
             };
-            if (!req.body._id) {
-                return res.json({ error: 'missing _id' });
-            } //Transfer to user auth
-            if (Object.keys(updates).length < 2) {
-                return res.json({ error: 'no update field(s) sent', '_id': req.body._id });
-            };
-            updates['updated_on'] = new Date().toUTCString();
-            Issue.findByIdAndUpdate(req.body._id, updates, { new: true }, (error, data) => {
+            updates['updated_on'] = new Date();
+            
+            Issue.findByIdAndUpdate(id, updates, { new: true }, (error, data) => {
                 if (data) {
-                    return res.json({ result: 'successfully updated', '_id': updates._id });
+                    return res.send(data);
                 } else {
                     return res.json({ error: 'could not update', '_id': updates._id });
                 }

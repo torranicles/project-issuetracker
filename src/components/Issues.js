@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
+import { isElement } from 'react-dom/test-utils'
 
 
 const Issues = (props) => {
     let params = useParams();
     const [issues, setIssues] = useState([]) ;
     const [issueCount, setIssueCount] = useState({
+        all: 0,
         open: 0,
         closed: 0
-    })
-
+    });
+    
     useEffect(() => {
         axios.get(`/api/issues/${params.project}`)
             .then(res => {
@@ -30,6 +32,7 @@ const Issues = (props) => {
                         }
                     })
                     setIssueCount({
+                        all: res.data.length,
                         open: openCount,
                         close: closedCount
                     })
@@ -37,6 +40,45 @@ const Issues = (props) => {
             })
             .catch(err => console.log(err))
     }, []);
+
+    const handleClose = (e) => {
+        axios.put(`/api/issues/${params.project}`, {
+                open: 'false'
+            }, {
+                params: {
+                    id: e.target.id
+                }
+            })
+            .then(res => {
+                console.log(res)
+                axios.get(`/api/issues/${params.project}`)
+                .then(res => {
+                    if (res.data.length) {
+                        setIssues(res.data);
+                        setIssueCount({
+                            all: issueCount.all,
+                            open: issueCount.open,
+                            close: issueCount.close + 1
+                        })
+                    }
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const handleSortIssue = (e) => {
+        axios.get(`/api/issues/${params.project}`, {
+            params: {
+                open: e.target.id
+            }
+        })
+        .then(res => {
+            setIssues(res.data)
+        })
+        .catch(err => console.log(err))
+}
     return (
         <div>
             <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
@@ -75,15 +117,15 @@ const Issues = (props) => {
                         <a className="dropdown-item" href="/#">Date updated</a>
                     </div>
                 </div>
-                <span className={`${styles.issueCount} bg-dark`}>
+                <span className={`${styles.issueCount} bg-dark`} onClick={handleSortIssue}>
                     {
                         issues.length
-                        ? issues.length
+                        ? issueCount.all
                         : "0"
                     }
                 </span>
                 <span className="mr-3">All issues</span>
-                <span className={`${styles.issueCount} bg-success`}>
+                <span className={`${styles.issueCount} bg-success`} onClick={handleSortIssue} id="true">
                     {
                         issues.length
                         ? issueCount.open
@@ -91,7 +133,7 @@ const Issues = (props) => {
                     }
                 </span>
                 <span className="mr-3">Open</span>
-                <span className={`${styles.issueCount} bg-danger`}>
+                <span className={`${styles.issueCount} bg-danger`} onClick={handleSortIssue} id="false">
                 {
                         issues.length
                         ? issueCount.close
@@ -109,51 +151,55 @@ const Issues = (props) => {
                 {
                     issues.length
                     ? issues.map(el => {
-                        return  <div className="col-sm-3 float-left px-4 mb-5">
+                        return  <div className={`col-sm-3 float-left px-4 mb-5 ${el.open}`}>
                                     <div className={`${styles.issueCard} card`}>
-                                        <div className={styles.titleContainer}>
-                                            <i  className="fas fa-circle float-right pt-3"
-                                                style={{
-                                                    fontSize: '.75rem',
-                                                    color:  el.open
-                                                            ? 'rgb(40,167,69)' //Green if open/true
-                                                            : 'rgb(220,53,69)' //Red if closed/false
-                                                }}/>
-                                            <h1 className={styles.title}>
-                                                {el.issue_title}
-                                            </h1>
-                                            <div className="float-right">
-                                                <i className="far fa-edit mr-2 text-primary" 
-                                                    data-tip="Edit" 
-                                                    data-for="edit"
+                                        <div className="card-header p-0">
+                                            <div className={styles.titleContainer}>
+                                                <i  className="fas fa-circle float-right pt-2"
                                                     style={{
-                                                        cursor: 'pointer'
+                                                        fontSize: '.75rem',
+                                                        color:  el.open
+                                                                ? 'rgb(40,167,69)' //Green if open/true
+                                                                : 'rgb(220,53,69)' //Red if closed/false
                                                     }}/>
-                                                <ReactTooltip place="bottom" effect="solid" id="edit"/>
-                                                <i className="far fa-trash-alt mr-2 text-danger" 
-                                                    data-tip="Delete" 
-                                                    data-for="delete"
-                                                    style={{
-                                                        cursor: 'pointer'
-                                                    }}/>
-                                                <ReactTooltip place="bottom" effect="solid" id="delete"/>
-                                                <i className="far fa-times-circle text-success" 
-                                                    data-tip="Close" 
-                                                    data-for="close"
-                                                    style={{
-                                                        cursor: 'pointer'
-                                                    }}/>
-                                                <ReactTooltip place="bottom" effect="solid" id="close"/>
+                                                <h1 className={styles.title}>
+                                                    {el.issue_title}
+                                                </h1>
+                                                <div className="float-right">
+                                                    <i className="far fa-edit mr-2 text-primary"
+                                                        data-tip="Edit" 
+                                                        data-for="edit"
+                                                        style={{
+                                                            cursor: 'pointer'
+                                                        }}/>
+                                                    <ReactTooltip place="bottom" effect="solid" id="edit"/>
+                                                    <i className="far fa-trash-alt mr-2 text-danger" 
+                                                        data-tip="Delete" 
+                                                        data-for="delete"
+                                                        style={{
+                                                            cursor: 'pointer'
+                                                        }}/>
+                                                    <ReactTooltip place="bottom" effect="solid" id="delete"/>
+                                                    <i className="far fa-times-circle text-success" 
+                                                        onClick={handleClose} 
+                                                        data-tip="Close" 
+                                                        data-for="close"
+                                                        id={el._id}
+                                                        style={{
+                                                            cursor: 'pointer'
+                                                        }}/>
+                                                    <ReactTooltip place="bottom" effect="solid" id="close"/>
+                                                </div>
+                                                <span style={{
+                                                    color: "lightgray"
+                                                }}>
+                                                    {
+                                                        el.created_on !== el.updated_on
+                                                        ? `Updated ${new Date(el.updated_on).toLocaleDateString()}`
+                                                        : `Created ${new Date(el.created_on).toLocaleDateString()}`
+                                                    }
+                                                </span>
                                             </div>
-                                            <span style={{
-                                                color: "lightgray"
-                                            }}>
-                                                {
-                                                    el.created_on !== el.updated_on
-                                                    ? `Updated ${new Date(el.updated_on).toLocaleDateString()}`
-                                                    : `Created ${new Date(el.created_on).toLocaleDateString()}`
-                                                }
-                                            </span>
                                         </div>
                                         <div className="card-body w-100 h-100 p-0">
                                             <div className={styles.textContainer}>
