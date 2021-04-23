@@ -78,7 +78,7 @@ const Issues = (props) => {
             setIssues(res.data)
         })
         .catch(err => console.log(err))
-}
+    }   
     return (
         <div>
             <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
@@ -108,39 +108,30 @@ const Issues = (props) => {
             </nav>
             <div className={styles.toolbar}>
                 <div className="w-50 h-100 d-flex align-items-center">
-                <div className="dropdown">
-                    <button type="button" className="btn btn-secondary mr-3 dropdown-toggle" data-toggle="dropdown">
-                        Sort by
-                    </button>
-                    <div className="dropdown-menu">
-                        <a className="dropdown-item" href="/#">Date created</a>
-                        <a className="dropdown-item" href="/#">Date updated</a>
-                    </div>
-                </div>
-                <span className={`${styles.issueCount} bg-dark`} onClick={handleSortIssue}>
+                    <span className={`${styles.issueCount} bg-dark`} onClick={handleSortIssue}>
+                        {
+                            issues.length
+                            ? issueCount.all
+                            : "0"
+                        }
+                    </span>
+                    <span className="mr-3">All issues</span>
+                    <span className={`${styles.issueCount} bg-success`} onClick={handleSortIssue} id="true">
+                        {
+                            issues.length
+                            ? issueCount.open
+                            : "0"
+                        }
+                    </span>
+                    <span className="mr-3">Open</span>
+                    <span className={`${styles.issueCount} bg-danger`} onClick={handleSortIssue} id="false">
                     {
-                        issues.length
-                        ? issueCount.all
-                        : "0"
-                    }
-                </span>
-                <span className="mr-3">All issues</span>
-                <span className={`${styles.issueCount} bg-success`} onClick={handleSortIssue} id="true">
-                    {
-                        issues.length
-                        ? issueCount.open
-                        : "0"
-                    }
-                </span>
-                <span className="mr-3">Open</span>
-                <span className={`${styles.issueCount} bg-danger`} onClick={handleSortIssue} id="false">
-                {
-                        issues.length
-                        ? issueCount.close
-                        : "0"
-                    }
-                </span>
-                <span className="mr-3">Closed</span>
+                            issues.length
+                            ? issueCount.close
+                            : "0"
+                        }
+                    </span>
+                    <span className="mr-3">Closed</span>
                 </div>
                 <div className="w-50 h-100 d-flex justify-content-end align-items-center">
                     <i className={`${styles.addBtn} fas fa-plus-square mr-3`}/>

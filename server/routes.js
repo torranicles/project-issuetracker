@@ -22,6 +22,8 @@ module.exports = function (app) {
 
         .get((req, res) => {
             let project = req.params.project;
+            
+
             Issue.find(
                 !req.query.open
                 ? {
