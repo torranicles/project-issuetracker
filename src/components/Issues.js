@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip'
 import { isElement } from 'react-dom/test-utils'
 
 
+//TODO::Add error handling
 const Issues = (props) => {
     let params = useParams();
     const [issues, setIssues] = useState([]) ;
@@ -15,7 +16,7 @@ const Issues = (props) => {
         closed: 0
     });
     
-    useEffect(() => {
+    const getIssues = () => {
         axios.get(`/api/issues/${params.project}`)
             .then(res => {
                 let openCount = 0;
@@ -39,7 +40,27 @@ const Issues = (props) => {
                 }
             })
             .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        getIssues()
     }, []);
+
+    const handleDelete = (e) => {
+        console.log(e.target.id)
+        axios.delete(`/api/issues/${params.project}`, {
+            params: {
+                id: e.target.id,
+                project: params.project
+            }
+        })
+        .then(res => {
+            if (res.data.includes("Issue deleted")) {
+                getIssues();
+            }
+        })
+        .catch(err => console.log(err))
+    }
 
     const handleClose = (e) => {
         axios.put(`/api/issues/${params.project}`, {
@@ -135,7 +156,7 @@ const Issues = (props) => {
                 </div>
                 <div className="w-50 h-100 d-flex justify-content-end align-items-center">
                     <i className={`${styles.addBtn} fas fa-plus-square mr-3`}/>
-                    <button className="btn btn-danger">Delete all</button>
+                    <button className="btn btn-danger" onClick={handleDelete}>Delete all</button>
                 </div>
             </div>
             <div className={styles.issuesContainer}>
@@ -167,6 +188,8 @@ const Issues = (props) => {
                                                     <i className="far fa-trash-alt mr-2 text-danger" 
                                                         data-tip="Delete" 
                                                         data-for="delete"
+                                                        id={el._id}
+                                                        onClick={handleDelete}
                                                         style={{
                                                             cursor: 'pointer'
                                                         }}/>

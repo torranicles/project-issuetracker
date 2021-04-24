@@ -106,14 +106,17 @@ module.exports = function (app) {
         })
         
         .delete(function (req, res){
-            if (!req.body._id) {
-                return res.json({ error: 'missing _id'})
-            } //Transfer to user auth
-            Issue.findByIdAndDelete(req.body._id, (err, data) => {
-                if (data) {
-                    return res.json({ result: 'successfully deleted', '_id': req.body._id})
+            let { id, project } = req.query;
+
+            Issue.deleteMany(
+                id
+                ? {_id: id}
+                : {project: project}, (err, data) => {
+                if (err) {
+                    console.log(err)
+                    return res.send("Something went wrong. Please try again.")
                 } else {
-                    return res.json({error: 'could not delete', '_id': req.body._id})
+                    return res.send("Issue deleted")
                 }
             })
         });
