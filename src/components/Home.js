@@ -30,6 +30,7 @@ const Home = (props) => {
                     ? <div className="d-flex align-items-center justify-content-center w-50 h-100">
                         <div className={styles.formContainer}>
                             <AddIssue 
+                                newSubmit={true}
                                 message={props.message}
                                 handleChange={props.handleFormChange} 
                                 handleSubmit={props.handleSubmit} 

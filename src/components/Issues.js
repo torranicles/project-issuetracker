@@ -3,18 +3,20 @@ import axios from 'axios'
 import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
+import AddOrEdit from './AddIssue'
 import { isElement } from 'react-dom/test-utils'
 
 
 //TODO::Add error handling
 const Issues = (props) => {
     let params = useParams();
-    const [issues, setIssues] = useState([]) ;
+    const [issues, setIssues] = useState([]);
     const [issueCount, setIssueCount] = useState({
         all: 0,
         open: 0,
         closed: 0
     });
+    const [formData, setFormData] = useState({});
     
     const getIssues = () => {
         axios.get(`/api/issues/${params.project}`)
@@ -45,6 +47,24 @@ const Issues = (props) => {
     useEffect(() => {
         getIssues()
     }, []);
+
+    const handleChange = (e) => {
+        setFormData((prevProps) => ({
+          ...prevProps,
+          [e.target.name]: e.target.value
+        }));
+    };
+    
+    const handleNewSubmit = (e) => {
+        e.preventDefault();
+        axios.post(`/api/issues/${params.project}`, {
+            ...formData,
+            confirm: true, //To bypass confirm submit message
+            project: params.project //Auto filled with the current project on
+        })
+        .then(res => getIssues())
+        .catch(err => console.log(err))
+    }
 
     const handleDelete = (e) => {
         console.log(e.target.id)
@@ -155,7 +175,11 @@ const Issues = (props) => {
                     <span className="mr-3">Closed</span>
                 </div>
                 <div className="w-50 h-100 d-flex justify-content-end align-items-center">
-                    <i className={`${styles.addBtn} fas fa-plus-square mr-3`}/>
+                    <i 
+                        className={`${styles.addBtn} fas fa-plus-square mr-3`} 
+                        data-toggle="modal" 
+                        data-target="#AddOrEdit" 
+                    />
                     <button className="btn btn-danger" onClick={handleDelete}>Delete all</button>
                 </div>
             </div>
@@ -238,6 +262,25 @@ const Issues = (props) => {
                     })
                     : null
                 }
+            </div>
+            <div className="modal fade" id="AddOrEdit">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <button type="button" className="close" data-dismiss="modal">×</button>
+                            <AddOrEdit handleChange={handleChange} handleSubmit={handleNewSubmit}/>
+                        </div>
+                        <div className="p-3">
+                            <span className="float-left text-success">
+                                {props.successMessage}
+                            </span>
+                            <span className="float-left text-danger">
+                                {props.failureMessage}
+                            </span>
+                            <button type="button" className="btn btn-outline-secondary float-right" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
