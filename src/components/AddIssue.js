@@ -1,7 +1,7 @@
 const AddIssue = (props) => {
     return (
         <div className="w-100">
-            <form onSubmit={props.handleSubmit}>
+            <form onSubmit={props.handleSubmit} id="form">
                 {
                     props.newSubmit //From adding issue on homepage
                     ? <i className="fas fa-times float-right" onClick={props.handleCloseForm}/>

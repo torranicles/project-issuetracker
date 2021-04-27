@@ -4,10 +4,7 @@ import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import AddOrEdit from './AddIssue'
-import { isElement } from 'react-dom/test-utils'
 
-
-//TODO::Add error handling
 const Issues = (props) => {
     let params = useParams();
     const [issues, setIssues] = useState([]);
@@ -17,6 +14,7 @@ const Issues = (props) => {
         closed: 0
     });
     const [formData, setFormData] = useState({});
+    const [message, setMessage] = useState('');
     
     const getIssues = () => {
         axios.get(`/api/issues/${params.project}`)
@@ -39,7 +37,7 @@ const Issues = (props) => {
                         open: openCount,
                         close: closedCount
                     })
-                }
+                } 
             })
             .catch(err => console.log(err))
     }
@@ -62,7 +60,19 @@ const Issues = (props) => {
             confirm: true, //To bypass confirm submit message
             project: params.project //Auto filled with the current project on
         })
-        .then(res => getIssues())
+        .then(res => {
+            if (res.data === "New issue added!") {
+                getIssues();
+                setMessage(res.data);
+                setTimeout(() => {
+                    setMessage('');
+                }, 2500);
+                document.getElementById('form').reset();
+            } else {
+                setMessage(res.data[0])
+            }
+            console.log(res.data)
+        })
         .catch(err => console.log(err))
     }
 
@@ -77,6 +87,12 @@ const Issues = (props) => {
         .then(res => {
             if (res.data.includes("Issue deleted")) {
                 getIssues();
+                setMessage(res.data);
+                setTimeout(() => {
+                    setMessage('');
+                }, 2500);
+            } else {
+                setMessage(res.data)
             }
         })
         .catch(err => console.log(err))
@@ -116,7 +132,9 @@ const Issues = (props) => {
             }
         })
         .then(res => {
-            setIssues(res.data)
+            if (res.data) {
+                setIssues(res.data)
+            }
         })
         .catch(err => console.log(err))
     }   
@@ -175,6 +193,13 @@ const Issues = (props) => {
                     <span className="mr-3">Closed</span>
                 </div>
                 <div className="w-50 h-100 d-flex justify-content-end align-items-center">
+                    <span className="text-danger mr-3">
+                        {
+                            message.includes("Issue deleted")
+                            ? message
+                            : null
+                        }
+                    </span>
                     <i 
                         className={`${styles.addBtn} fas fa-plus-square mr-3`} 
                         data-toggle="modal" 
@@ -268,7 +293,7 @@ const Issues = (props) => {
                     <div className="modal-content">
                         <div className="modal-body">
                             <button type="button" className="close" data-dismiss="modal">×</button>
-                            <AddOrEdit handleChange={handleChange} handleSubmit={handleNewSubmit}/>
+                            <AddOrEdit handleChange={handleChange} handleSubmit={handleNewSubmit} message={message}/>
                         </div>
                         <div className="p-3">
                             <span className="float-left text-success">

@@ -110,7 +110,6 @@ module.exports = function (app) {
                 : {project: project}, (err, data) => {
                 if (err) {
                     console.log(err)
-                    return res.send("Something went wrong. Please try again.")
                 } else {
                     return res.send("Issue deleted")
                 }
