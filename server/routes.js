@@ -55,33 +55,29 @@ module.exports = function (app) {
                 project: project
             });
 
+            const saveIssue = () => {
+                newIssue.save((err, data) => {
+                    if (err) {
+                        if (err.name == 'ValidationError') {
+                            return res.send(Object.values(err.errors).map(val => val.message))
+                        }
+                    } else {
+                        return res.send("New issue added!")
+                    }
+                })
+            }
+
             Issue.find({
                 project: project
             }, (err, doc) => {
                 if (err) {
                     console.log(err)
                 } else if (confirm) { //true only if form is once submitted
-                    newIssue.save((err, data) => {
-                        if (err) {
-                            if (err.name == 'ValidationError') {
-                                return res.send(Object.values(err.errors).map(val => val.message))
-                            }
-                        } else {
-                            return res.send("New issue added!")
-                        }
-                    })
+                    saveIssue();
                 } else if (doc.length) {
                     return res.send(`Project name already exists. Do you want to add issue on ${project}?`)
                 } else {
-                    newIssue.save((err, data) => {
-                        if (err) {
-                            if (err.name == 'ValidationError') {
-                                return res.send(Object.values(err.errors).map(val => val.message))
-                            }
-                        } else {
-                            return res.send("New issue added!")
-                        }
-                    })
+                    saveIssue();
                 }
             })
         })
