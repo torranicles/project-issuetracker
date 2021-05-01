@@ -7,7 +7,11 @@ const AddIssue = (props) => {
                     ? <i className="fas fa-times float-right" onClick={props.handleCloseForm}/>
                     : null
                 }
-                <h1>New issue</h1>
+                {
+                    props.editForm
+                    ? <h1>Edit issue</h1>
+                    : <h1>New issue</h1>
+                }
                 <br/>
                 {
                     props.newSubmit //From adding issue on homepage
@@ -24,11 +28,7 @@ const AddIssue = (props) => {
                         name="issue_title" 
                         type="text" 
                         className="form-control" 
-                        value={
-                            props.editSubmit
-                            ? props.description
-                            : undefined
-                        }
+                        defaultValue={props.title}
                         required
                     />
                 </div>
@@ -39,11 +39,7 @@ const AddIssue = (props) => {
                         name="issue_text" 
                         type="text" 
                         className="form-control" 
-                        value={
-                            props.editSubmit
-                            ? props.description
-                            : undefined
-                        }
+                        defaultValue={props.description}
                         required
                     />
                 </div>
@@ -54,11 +50,7 @@ const AddIssue = (props) => {
                         name="created_by" 
                         type="text"
                         className="form-control" 
-                        value={
-                            props.editSubmit
-                            ? props.description
-                            : undefined
-                        }
+                        defaultValue={props.created_by}
                         required
                     />
                 </div>
@@ -69,11 +61,7 @@ const AddIssue = (props) => {
                         name="assigned_to" 
                         type="text" 
                         className="form-control"
-                        value={
-                            props.editSubmit
-                            ? props.description
-                            : undefined
-                        }
+                        defaultValue={props.assigned_to}
                     />
                 </div>
                 <div className="form-group">
@@ -83,11 +71,7 @@ const AddIssue = (props) => {
                         name="status_text" 
                         type="text" 
                         className="form-control"
-                        value={
-                            props.editSubmit
-                            ? props.description
-                            : undefined
-                        }
+                        defaultValue={props.status}
                     />
                 </div>
                 {

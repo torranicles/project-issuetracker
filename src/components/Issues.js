@@ -14,6 +14,7 @@ const Issues = (props) => {
         closed: 0
     });
     const [formData, setFormData] = useState({});
+    const [editForm, setEditForm] = useState(false);
     const [message, setMessage] = useState('');
     
     const getIssues = () => {
@@ -53,6 +54,11 @@ const Issues = (props) => {
         }));
     };
     
+    const handleNewClick = (e) => {
+        setEditForm(false);
+        document.getElementById('form').reset();
+    }
+
     const handleNewSubmit = (e) => {
         e.preventDefault();
         axios.post(`/api/issues/${params.project}`, {
@@ -61,7 +67,7 @@ const Issues = (props) => {
             project: params.project //Auto filled with the current project on
         })
         .then(res => {
-            if (res.data === "New issue added!") {
+            if (res.data === "New issue added.") {
                 getIssues();
                 setMessage(res.data);
                 setTimeout(() => {
@@ -72,6 +78,53 @@ const Issues = (props) => {
                 setMessage(res.data[0])
             }
             console.log(res.data)
+        })
+        .catch(err => console.log(err))
+    }
+
+    const handleEditClick = (e) => {
+        setEditForm(true);
+        axios.get(`/api/issues/${params.project}`, {
+            params: {
+                id: e.target.id
+            }
+        })
+        .then(res => {
+            if (res.data.open === false) {
+                return null;
+            } else {
+                setFormData({
+                    ...res.data[0],
+                    id: e.target.id
+                });
+            }
+        })
+    }
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        axios.put(`/api/issues/${params.project}`, {
+            ...formData,
+            project: params.project
+        }, {
+            params: {
+                id: formData.id
+            }
+        })
+        .then(res => {
+            if (res.data === "Issue successfully edited.") {
+                getIssues();
+                setMessage(res.data);
+                setTimeout(() => {
+                    setMessage('');
+                }, 2500);
+                document.getElementById('form').reset();
+            } else {
+                setMessage(res.data);
+                setTimeout(() => {
+                    setMessage('');
+                }, 2500);
+            }
         })
         .catch(err => console.log(err))
     }
@@ -138,6 +191,7 @@ const Issues = (props) => {
         })
         .catch(err => console.log(err))
     }   
+    let { issue_title, issue_text, created_by, assigned_to, status_text } = formData;
     return (
         <div>
             <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
@@ -204,6 +258,7 @@ const Issues = (props) => {
                         className={`${styles.addBtn} fas fa-plus-square mr-3`} 
                         data-toggle="modal" 
                         data-target="#AddOrEdit" 
+                        onClick={handleNewClick}
                     />
                     <button className="btn btn-danger" onClick={handleDelete}>Delete all</button>
                 </div>
@@ -212,7 +267,7 @@ const Issues = (props) => {
                 {
                     issues.length
                     ? issues.map(el => {
-                        return  <div className={`col-sm-3 float-left px-4 mb-5 ${el.open}`}>
+                        return  <div className={`col-sm-3 float-left px-4 mb-5`}>
                                     <div className={`${styles.issueCard} card`}>
                                         <div className="card-header p-0">
                                             <div className={styles.titleContainer}>
@@ -230,9 +285,20 @@ const Issues = (props) => {
                                                     <i className="far fa-edit mr-2 text-primary"
                                                         data-tip="Edit" 
                                                         data-for="edit"
+                                                        data-toggle={
+                                                            el.open
+                                                            ? "modal"
+                                                            : null
+                                                        }
+                                                        data-target="#AddOrEdit" 
                                                         style={{
                                                             cursor: 'pointer'
-                                                        }}/>
+                                                        }}
+                                                        id={el._id}
+                                                        onClick={
+                                                            el.open
+                                                            ? handleEditClick
+                                                            : null}/>
                                                     <ReactTooltip place="bottom" effect="solid" id="edit"/>
                                                     <i className="far fa-trash-alt mr-2 text-danger" 
                                                         data-tip="Delete" 
@@ -273,7 +339,7 @@ const Issues = (props) => {
                                             </div>
                                         </div>
                                         <div className={`${styles.persons} py-2 card-footer bg-white`}>
-                                            <span>
+                                            <span id="created_by">
                                                 Created by {el.created_by}
                                             </span>
                                             <br/>
@@ -293,7 +359,21 @@ const Issues = (props) => {
                     <div className="modal-content">
                         <div className="modal-body">
                             <button type="button" className="close" data-dismiss="modal">×</button>
-                            <AddOrEdit handleChange={handleChange} handleSubmit={handleNewSubmit} message={message}/>
+                            <AddOrEdit 
+                                editForm={editForm}
+                                handleChange={handleChange} 
+                                handleSubmit={
+                                    editForm
+                                    ? handleEditSubmit
+                                    : handleNewSubmit
+                                } 
+                                message={message}
+                                title={issue_title}
+                                description={issue_text}
+                                created_by={created_by}
+                                assigned_to={assigned_to}
+                                status={status_text}
+                                />
                         </div>
                         <div className="p-3">
                             <span className="float-left text-success">

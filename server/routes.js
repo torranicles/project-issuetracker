@@ -22,16 +22,25 @@ module.exports = function (app) {
 
         .get((req, res) => {
             let project = req.params.project;
+            let { open, id } = req.query;
+            let query = {};
 
-            Issue.find(
-                !req.query.open
-                ? {
+            if (open) { //Sort here
+                query = {
+                    open: open, 
                     project: project
                 }
-                : {
-                    open: req.query.open,
+            } else if (id) { //Edit here
+                query = {
+                    _id: id
+                }
+            } else {
+                query = {
                     project: project
-                })
+                }
+            }
+
+            Issue.find(query)
                 .select('-__v -project')
                 .exec((err, data) => {
                     if (err) {
@@ -83,7 +92,6 @@ module.exports = function (app) {
         })
         
         .put(function (req, res){
-            let id = req.query.id;
             let updates = {};
             for (const [key, value] of Object.entries(req.body)) {
                 if (value != '') {
@@ -92,11 +100,11 @@ module.exports = function (app) {
             };
             updates['updated_on'] = new Date();
             
-            Issue.findByIdAndUpdate(id, updates, { new: true }, (error, data) => {
+            Issue.findByIdAndUpdate(req.query.id, updates, { new: true }, (error, data) => {
                 if (data) {
-                    return res.send(data);
+                    return res.send("Issue successfully edited.");
                 } else {
-                    return res.json({ error: 'could not update', '_id': updates._id });
+                    return res.send("Failed to edit issue.");
                 }
             });
         })
