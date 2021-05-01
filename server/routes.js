@@ -22,7 +22,6 @@ module.exports = function (app) {
 
         .get((req, res) => {
             let project = req.params.project;
-            
 
             Issue.find(
                 !req.query.open
@@ -30,7 +29,8 @@ module.exports = function (app) {
                     project: project
                 }
                 : {
-                    open: req.query.open
+                    open: req.query.open,
+                    project: project
                 })
                 .select('-__v -project')
                 .exec((err, data) => {

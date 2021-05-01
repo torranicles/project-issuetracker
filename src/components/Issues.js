@@ -134,7 +134,7 @@ const Issues = (props) => {
         .then(res => {
             if (res.data) {
                 setIssues(res.data)
-            }
+            } 
         })
         .catch(err => console.log(err))
     }   
@@ -169,7 +169,7 @@ const Issues = (props) => {
                 <div className="w-50 h-100 d-flex align-items-center">
                     <span className={`${styles.issueCount} bg-dark`} onClick={handleSortIssue}>
                         {
-                            issues.length
+                            issueCount
                             ? issueCount.all
                             : "0"
                         }
@@ -177,7 +177,7 @@ const Issues = (props) => {
                     <span className="mr-3">All issues</span>
                     <span className={`${styles.issueCount} bg-success`} onClick={handleSortIssue} id="true">
                         {
-                            issues.length
+                            issueCount
                             ? issueCount.open
                             : "0"
                         }
@@ -185,7 +185,7 @@ const Issues = (props) => {
                     <span className="mr-3">Open</span>
                     <span className={`${styles.issueCount} bg-danger`} onClick={handleSortIssue} id="false">
                     {
-                            issues.length
+                            issueCount
                             ? issueCount.close
                             : "0"
                         }
