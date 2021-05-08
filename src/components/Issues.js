@@ -67,7 +67,7 @@ const Issues = (props) => {
             project: params.project //Auto filled with the current project on
         })
         .then(res => {
-            if (res.data === "New issue added.") {
+            if (res.data === "New issue added!") {
                 getIssues();
                 setMessage(res.data);
                 setTimeout(() => {
