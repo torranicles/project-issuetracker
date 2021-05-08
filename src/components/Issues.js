@@ -36,7 +36,7 @@ const Issues = (props) => {
                     setIssueCount({
                         all: res.data.length,
                         open: openCount,
-                        close: closedCount
+                        closed: closedCount
                     })
                 } 
             })
@@ -168,7 +168,7 @@ const Issues = (props) => {
                         setIssueCount({
                             all: issueCount.all,
                             open: issueCount.open,
-                            close: issueCount.close + 1
+                            closed: issueCount.closed + 1
                         })
                     }
                 })
@@ -238,9 +238,9 @@ const Issues = (props) => {
                     </span>
                     <span className="mr-3">Open</span>
                     <span className={`${styles.issueCount} bg-danger`} onClick={handleSortIssue} id="false">
-                    {
+                        {
                             issueCount
-                            ? issueCount.close
+                            ? issueCount.closed
                             : "0"
                         }
                     </span>
