@@ -3,11 +3,17 @@ const Issue = require('./issue.model')
 module.exports = function (app) {
 
     app.get('/search', (req, res) => {
-        let project = req.query.project;
-        project.toLowerCase().trim();
-        Issue.find({
-            project: project
-        })
+        let { issue_title, project } = req.query;
+        console.log(req.query)
+        Issue.find(
+            project && !issue_title //Project search
+            ? {
+                project: project
+            }
+            :  { //Issue search
+                project: project,
+                issue_title: issue_title
+            })
             .select('-__v')
             .exec((err, doc) => {
                 if (err) {

@@ -16,6 +16,7 @@ const Issues = (props) => {
     const [formData, setFormData] = useState({});
     const [editForm, setEditForm] = useState(false);
     const [message, setMessage] = useState('');
+    const [isSearched, setIsSearched] = useState(false);
     
     const getIssues = () => {
         axios.get(`/api/issues/${params.project}`)
@@ -25,7 +26,7 @@ const Issues = (props) => {
                 setIssues(res.data);
 
                 //Set issue counts
-                if (res.data.length) { 
+                if (res.data.length && res.data[0].hasOwnProperty('issue_title')) { 
                     res.data.map(elem => {
                         if (elem.open) {
                             openCount = openCount + 1;
@@ -54,6 +55,29 @@ const Issues = (props) => {
         }));
     };
     
+    const handleIssueSearch = (e) => {
+        e.preventDefault();
+        axios.get('/search', {
+            params: {
+                project: params.project,
+                issue_title: formData.searchValue
+            }
+        })
+        .then(res => {
+            if (res.data.length) {
+                setIssues(res.data);
+                setIsSearched(true);
+                document.getElementById('search-form').reset();
+            } else {
+                setMessage('No issue found.');
+                setTimeout(() => {
+                    setMessage('');
+                }, 2500);
+            }
+        })
+        .catch(err => console.log(err))
+    }
+
     const handleNewClick = (e) => {
         setEditForm(false);
         document.getElementById('form').reset();
@@ -138,8 +162,13 @@ const Issues = (props) => {
             }
         })
         .then(res => {
-            if (res.data.includes("Issue deleted")) {
+            if (res.data === "Issue deleted") {
                 getIssues();
+                setIssueCount({
+                    all: 0,
+                    open: 0,
+                    closed: 0
+                })
                 setMessage(res.data);
                 setTimeout(() => {
                     setMessage('');
@@ -160,7 +189,6 @@ const Issues = (props) => {
                 }
             })
             .then(res => {
-                console.log(res)
                 axios.get(`/api/issues/${params.project}`)
                 .then(res => {
                     if (res.data.length) {
@@ -172,6 +200,7 @@ const Issues = (props) => {
                         })
                     }
                 })
+                .catch(err => console.log(err))
             })
             .catch(err => {
                 console.log(err)
@@ -191,34 +220,31 @@ const Issues = (props) => {
         })
         .catch(err => console.log(err))
     }   
+    
     let { issue_title, issue_text, created_by, assigned_to, status_text } = formData;
     return (
         <div>
+            {/* Nav */}
             <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
                 <a className="navbar-brand" href="/">Project Issue Tracker</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="collapsibleNavbar">
-                    <ul className="navbar-nav d-flex justify-content-end w-100">
-                        <li className="nav-item mr-5">
-                            <a className="nav-link text-light" href="/projects/#">New Project</a>
-                        </li>
-                        <li className="nav-item">
-                            <form className="d-flex" onSubmit={props.handleSearch}>
-                                <input type="text" 
-                                    onChange={props.handleFormChange} 
-                                    placeholder="Search"
-                                    className="form-control"
-                                />
-                                <button className="btn" type="submit"> 
-                                    <i className="fas fa-search text-light"/>
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>  
+                <div className="navbar-nav d-flex justify-content-end w-100">
+                    <form className="d-flex" id="search-form" onSubmit={handleIssueSearch}>
+                        <input type="text" 
+                            onChange={handleChange}
+                            name="searchValue" 
+                            placeholder="Search"
+                            className="form-control"
+                        />
+                        <button className="btn" type="submit"> 
+                            <i className="fas fa-search text-light"/>
+                        </button>
+                    </form>
+                </div>
             </nav>
+            {/* Toolbar */}
             <div className={styles.toolbar}>
                 <div className="w-50 h-100 d-flex align-items-center">
                     <span className={`${styles.issueCount} bg-dark`} onClick={handleSortIssue}>
@@ -249,7 +275,7 @@ const Issues = (props) => {
                 <div className="w-50 h-100 d-flex justify-content-end align-items-center">
                     <span className="text-danger mr-3">
                         {
-                            message.includes("Issue deleted")
+                            message.includes("Issue deleted") || message.includes("No issue found")
                             ? message
                             : null
                         }
@@ -263,6 +289,7 @@ const Issues = (props) => {
                     <button className="btn btn-danger" onClick={handleDelete}>Delete all</button>
                 </div>
             </div>
+            {/* Issues */}
             <div className={styles.issuesContainer}>
                 {
                     issues.length
@@ -354,6 +381,7 @@ const Issues = (props) => {
                     : null
                 }
             </div>
+            {/* Modal for add/edit */}
             <div className="modal fade" id="AddOrEdit">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
