@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import AddOrEdit from './AddIssue'
 
+//TODO::Fix delete under searched item
 const Issues = (props) => {
     let params = useParams();
     const [issues, setIssues] = useState([]);
@@ -54,13 +55,12 @@ const Issues = (props) => {
           [e.target.name]: e.target.value
         }));
     };
-    
-    const handleIssueSearch = (e) => {
-        e.preventDefault();
+
+    const searchIssue = () => {
         axios.get('/search', {
             params: {
                 project: params.project,
-                issue_title: formData.searchValue
+                issue_title: formData.issue_title
             }
         })
         .then(res => {
@@ -76,6 +76,11 @@ const Issues = (props) => {
             }
         })
         .catch(err => console.log(err))
+    }
+
+    const handleIssueSearch = (e) => {
+        e.preventDefault();
+        searchIssue();
     }
 
     const handleNewClick = (e) => {
@@ -137,7 +142,11 @@ const Issues = (props) => {
         })
         .then(res => {
             if (res.data === "Issue successfully edited.") {
-                getIssues();
+                if (isSearched) {
+                    searchIssue();
+                } else {
+                    getIssues();
+                }
                 setMessage(res.data);
                 setTimeout(() => {
                     setMessage('');
@@ -163,7 +172,11 @@ const Issues = (props) => {
         })
         .then(res => {
             if (res.data === "Issue deleted") {
-                getIssues();
+                if (isSearched) {
+                    searchIssue();
+                } else {
+                    getIssues();
+                }
                 setIssueCount({
                     all: 0,
                     open: 0,
@@ -179,7 +192,7 @@ const Issues = (props) => {
         })
         .catch(err => console.log(err))
     }
-
+    console.log(isSearched, formData.issue_title)
     const handleClose = (e) => {
         axios.put(`/api/issues/${params.project}`, {
                 open: 'false'
@@ -189,18 +202,20 @@ const Issues = (props) => {
                 }
             })
             .then(res => {
-                axios.get(`/api/issues/${params.project}`)
-                .then(res => {
-                    if (res.data.length) {
-                        setIssues(res.data);
-                        setIssueCount({
-                            all: issueCount.all,
-                            open: issueCount.open,
-                            closed: issueCount.closed + 1
-                        })
-                    }
+                if (isSearched) {
+                    searchIssue();
+                } else {
+                    axios.get(`/api/issues/${params.project}`)
+                    .then(res => {
+                        setIssues(res.data)
+                    })
+                    .catch(err => console.log(err))
+                }
+                setIssueCount({
+                    all: issueCount.all,
+                    open: issueCount.open,
+                    closed: issueCount.closed + 1
                 })
-                .catch(err => console.log(err))
             })
             .catch(err => {
                 console.log(err)
@@ -208,6 +223,7 @@ const Issues = (props) => {
     }
 
     const handleSortIssue = (e) => {
+        setIsSearched(false);
         axios.get(`/api/issues/${params.project}`, {
             params: {
                 open: e.target.id
@@ -234,7 +250,7 @@ const Issues = (props) => {
                     <form className="d-flex" id="search-form" onSubmit={handleIssueSearch}>
                         <input type="text" 
                             onChange={handleChange}
-                            name="searchValue" 
+                            name="issue_title" 
                             placeholder="Search"
                             className="form-control"
                         />
