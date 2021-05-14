@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import AddOrEdit from './AddIssue'
 
-//TODO::Fix delete under searched item
 const Issues = (props) => {
     let params = useParams();
     const [issues, setIssues] = useState([]);
@@ -19,20 +18,22 @@ const Issues = (props) => {
     const [message, setMessage] = useState('');
     const [isSearched, setIsSearched] = useState(false);
     
-    const getIssues = () => {
+    const getIssues = (bool) => {
         axios.get(`/api/issues/${params.project}`)
             .then(res => {
                 let openCount = 0;
                 let closedCount = 0;
-                setIssues(res.data);
+                if (!isSearched || bool) {
+                    setIssues(res.data);
+                }
 
                 //Set issue counts
                 if (res.data.length && res.data[0].hasOwnProperty('issue_title')) { 
                     res.data.map(elem => {
                         if (elem.open) {
-                            openCount = openCount + 1;
+                            return openCount = openCount + 1;
                         } else {
-                            closedCount = closedCount + 1;
+                            return closedCount = closedCount + 1;
                         }
                     })
                     setIssueCount({
@@ -45,9 +46,7 @@ const Issues = (props) => {
             .catch(err => console.log(err))
     }
 
-    useEffect(() => {
-        getIssues()
-    }, []);
+    useEffect(getIssues, [isSearched, params.project]);
 
     const handleChange = (e) => {
         setFormData((prevProps) => ({
@@ -69,10 +68,17 @@ const Issues = (props) => {
                 setIsSearched(true);
                 document.getElementById('search-form').reset();
             } else {
-                setMessage('No issue found.');
-                setTimeout(() => {
-                    setMessage('');
-                }, 2500);
+                if (!isSearched) {
+                    setMessage('No issue found.');
+                    setTimeout(() => {
+                        setMessage('');
+                    }, 2500);
+                } else if (res.data.length === 0 && isSearched) { //If a single searched item is deleted
+                    setIsSearched(false);
+                    getIssues(true);
+                } else {
+                    getIssues();
+                }
             }
         })
         .catch(err => console.log(err))
@@ -171,28 +177,28 @@ const Issues = (props) => {
             }
         })
         .then(res => {
-            if (res.data === "Issue deleted") {
-                if (isSearched) {
-                    searchIssue();
-                } else {
-                    getIssues();
-                }
+            if (res.data === "All issues deleted.") {
+                getIssues();
                 setIssueCount({
                     all: 0,
                     open: 0,
                     closed: 0
                 })
-                setMessage(res.data);
-                setTimeout(() => {
-                    setMessage('');
-                }, 2500);
             } else {
-                setMessage(res.data)
+                if (isSearched) {
+                    searchIssue();
+                } else {
+                    getIssues();
+                }
             }
+            setMessage(res.data);
+            setTimeout(() => {
+                setMessage('');
+            }, 2500);
         })
         .catch(err => console.log(err))
     }
-    console.log(isSearched, formData.issue_title)
+    
     const handleClose = (e) => {
         axios.put(`/api/issues/${params.project}`, {
                 open: 'false'
@@ -213,7 +219,7 @@ const Issues = (props) => {
                 }
                 setIssueCount({
                     all: issueCount.all,
-                    open: issueCount.open,
+                    open: issueCount.open - 1,
                     closed: issueCount.closed + 1
                 })
             })

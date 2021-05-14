@@ -116,17 +116,26 @@ module.exports = function (app) {
         })
         
         .delete(function (req, res){
+            console.log(req.query)
             let { id, project } = req.query;
-
-            Issue.deleteMany(
-                id
-                ? {_id: id}
-                : {project: project}, (err, data) => {
-                if (err) {
-                    console.log(err)
-                } else {
-                    return res.send("Issue deleted")
-                }
-            })
+            if (id) {
+                Issue.findByIdAndDelete(id, (err, doc) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        res.send("Issue deleted.")
+                    }
+                })
+            } else {
+                Issue.deleteMany({
+                    project: project
+                }, (err, data) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        return res.send("All issues deleted.")
+                    }
+                })
+            }
         });
 };
