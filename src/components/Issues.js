@@ -4,6 +4,7 @@ import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
 import AddOrEdit from './AddIssue'
 import IssueCard from './IssueCard'
+import Pagination from './Pagination'
 
 const Issues = (props) => {
     let params = useParams();
@@ -19,11 +20,11 @@ const Issues = (props) => {
     const [message, setMessage] = useState('');
     const [isSearched, setIsSearched] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemPerPage] = useState(15);
+    const [issuesPerPage] = useState(12);
     
-    const lastItemIndex = currentPage * itemsPerPage;
-    const firstItemIndex = lastItemIndex - itemsPerPage;
-    const currentItems = issues.slice(firstItemIndex, lastItemIndex);
+    const lastIssueIndex = currentPage * issuesPerPage;
+    const firstIssueIndex = lastIssueIndex - issuesPerPage;
+    const currentIssues = issues.slice(firstIssueIndex, lastIssueIndex);
 
     const getIssues = (bool) => {
         axios.get(`/api/issues/${params.project}`)
@@ -53,8 +54,12 @@ const Issues = (props) => {
             .catch(err => console.log(err))
     }
 
-    useEffect(getIssues, [isSearched, params.project]);
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
 
+    useEffect(getIssues, [isSearched, params.project]);
+    
     const handleChange = (e) => {
         setFormData((prevProps) => ({
           ...prevProps,
@@ -71,6 +76,7 @@ const Issues = (props) => {
         })
         .then(res => {
             if (res.data.length) {
+                setCurrentPage(1);
                 setIssues(res.data);
                 setIsSearched(true);
                 document.getElementById('search-form').reset();
@@ -282,6 +288,7 @@ const Issues = (props) => {
             {/* Toolbar */}
             <div className={styles.toolbar}>
                 <div className="w-50 h-100 d-flex align-items-center">
+                    <span className="mr-2">Sort: </span>
                     <span className={`${styles.issueCount} bg-dark`} onClick={handleSortIssue}>
                         {
                             issueCount
@@ -327,12 +334,13 @@ const Issues = (props) => {
             {/* Issues */}
             <div className={styles.issuesContainer}>
                 <IssueCard 
-                    issues={currentItems} 
+                    issues={currentIssues} 
                     loading={loading} 
                     handleEditClick={handleEditClick} 
                     handleDelete={handleDelete}
                     handleClose={handleClose}/>
             </div>
+            <Pagination issuesPerPage={issuesPerPage} totalIssues={issues.length} paginate={paginate}/>
             {/* Modal for add/edit */}
             <div className="modal fade" id="AddOrEdit">
                 <div className="modal-dialog modal-dialog-centered">
