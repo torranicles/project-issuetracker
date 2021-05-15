@@ -32,54 +32,6 @@
     margin: 2% auto;
 }
 
-.issueCard {
-    height: 350px;
-    background-color: white;
-    border-radius: .25rem;
-    border: 1px solid darkgray !important;
-    color: rgb(105, 105, 105);
-    font-size: 1rem;
-}
-
-.titleContainer {
-    margin: 0;
-    background-color: rgb(66, 73, 78);
-    color: white;
-    padding: 5px 20px 5px;
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
-    word-wrap: break-word;
-}
-
-.title {
-    width: 70%;
-    margin-bottom: 5px;
-    font-size: 1.30rem;
-    font-weight: 400;
-}
-
-.textContainer {
-    padding: 10px 20px 5px;
-    border-bottom: 1px solid lightgray;
-    height: 80%;
-    overflow-y: auto;
-    word-wrap: break-word;
-}
-
-.status {
-    padding: 5px 20px;
-    height: 20%;
-    background-color: #f3f3f3;
-    word-wrap: break-word;
-    overflow: auto;
-}
-
-.persons {
-    padding: 0 20px;
-    color: rgb(110, 110, 110);
-    word-wrap: break-word;
-}
-
 ::-webkit-scrollbar {
     width: 10px;
 }

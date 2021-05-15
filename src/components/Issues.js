@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
-import ReactTooltip from 'react-tooltip'
 import AddOrEdit from './AddIssue'
+import IssueCard from './IssueCard'
 
 const Issues = (props) => {
     let params = useParams();
+    const [loading, setLoading] = useState(false)
     const [issues, setIssues] = useState([]);
     const [issueCount, setIssueCount] = useState({
         all: 0,
@@ -17,7 +18,13 @@ const Issues = (props) => {
     const [editForm, setEditForm] = useState(false);
     const [message, setMessage] = useState('');
     const [isSearched, setIsSearched] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemPerPage] = useState(15);
     
+    const lastItemIndex = currentPage * itemsPerPage;
+    const firstItemIndex = lastItemIndex - itemsPerPage;
+    const currentItems = issues.slice(firstItemIndex, lastItemIndex);
+
     const getIssues = (bool) => {
         axios.get(`/api/issues/${params.project}`)
             .then(res => {
@@ -68,7 +75,14 @@ const Issues = (props) => {
                 setIsSearched(true);
                 document.getElementById('search-form').reset();
             } else {
-                if (!isSearched) {
+                if (res.data.length === 0 && isSearched) {
+                    setIsSearched(false);
+                    setMessage('No issue found.');
+                    setTimeout(() => {
+                        setMessage('');
+                    }, 2500);
+                }
+                if (!isSearched) { //Prevent message from appearing when 1 searched item is deleted
                     setMessage('No issue found.');
                     setTimeout(() => {
                         setMessage('');
@@ -169,7 +183,6 @@ const Issues = (props) => {
     }
 
     const handleDelete = (e) => {
-        console.log(e.target.id)
         axios.delete(`/api/issues/${params.project}`, {
             params: {
                 id: e.target.id,
@@ -313,95 +326,12 @@ const Issues = (props) => {
             </div>
             {/* Issues */}
             <div className={styles.issuesContainer}>
-                {
-                    issues.length
-                    ? issues.map(el => {
-                        return  <div className={`col-sm-3 float-left px-4 mb-5`}>
-                                    <div className={`${styles.issueCard} card`}>
-                                        <div className="card-header p-0">
-                                            <div className={styles.titleContainer}>
-                                                <i  className="fas fa-circle float-right pt-2"
-                                                    style={{
-                                                        fontSize: '.75rem',
-                                                        color:  el.open
-                                                                ? 'rgb(40,167,69)' //Green if open/true
-                                                                : 'rgb(220,53,69)' //Red if closed/false
-                                                    }}/>
-                                                <h1 className={styles.title}>
-                                                    {el.issue_title}
-                                                </h1>
-                                                <div className="float-right">
-                                                    <i className="far fa-edit mr-2 text-primary"
-                                                        data-tip="Edit" 
-                                                        data-for="edit"
-                                                        data-toggle={
-                                                            el.open
-                                                            ? "modal"
-                                                            : null
-                                                        }
-                                                        data-target="#AddOrEdit" 
-                                                        style={{
-                                                            cursor: 'pointer'
-                                                        }}
-                                                        id={el._id}
-                                                        onClick={
-                                                            el.open
-                                                            ? handleEditClick
-                                                            : null}/>
-                                                    <ReactTooltip place="bottom" effect="solid" id="edit"/>
-                                                    <i className="far fa-trash-alt mr-2 text-danger" 
-                                                        data-tip="Delete" 
-                                                        data-for="delete"
-                                                        id={el._id}
-                                                        onClick={handleDelete}
-                                                        style={{
-                                                            cursor: 'pointer'
-                                                        }}/>
-                                                    <ReactTooltip place="bottom" effect="solid" id="delete"/>
-                                                    <i className="far fa-times-circle text-success" 
-                                                        onClick={handleClose} 
-                                                        data-tip="Close" 
-                                                        data-for="close"
-                                                        id={el._id}
-                                                        style={{
-                                                            cursor: 'pointer'
-                                                        }}/>
-                                                    <ReactTooltip place="bottom" effect="solid" id="close"/>
-                                                </div>
-                                                <span style={{
-                                                    color: "lightgray"
-                                                }}>
-                                                    {
-                                                        el.created_on !== el.updated_on
-                                                        ? `Updated ${new Date(el.updated_on).toLocaleDateString()}`
-                                                        : `Created ${new Date(el.created_on).toLocaleDateString()}`
-                                                    }
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="card-body w-100 h-100 p-0">
-                                            <div className={styles.textContainer}>
-                                                {el.issue_text}
-                                            </div>
-                                            <div className={styles.status}>
-                                                <b>Status:</b> {el.status_text}
-                                            </div>
-                                        </div>
-                                        <div className={`${styles.persons} py-2 card-footer bg-white`}>
-                                            <span id="created_by">
-                                                Created by {el.created_by}
-                                            </span>
-                                            <br/>
-                                            <span>
-                                                Assigned to {el.assigned_to}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                    })
-                    : null
-                }
+                <IssueCard 
+                    issues={currentItems} 
+                    loading={loading} 
+                    handleEditClick={handleEditClick} 
+                    handleDelete={handleDelete}
+                    handleClose={handleClose}/>
             </div>
             {/* Modal for add/edit */}
             <div className="modal fade" id="AddOrEdit">
