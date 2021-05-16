@@ -20,7 +20,7 @@ const Issues = (props) => {
     const [message, setMessage] = useState('');
     const [isSearched, setIsSearched] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [issuesPerPage] = useState(12);
+    const [issuesPerPage] = useState(16);
     
     const lastIssueIndex = currentPage * issuesPerPage;
     const firstIssueIndex = lastIssueIndex - issuesPerPage;
@@ -256,7 +256,8 @@ const Issues = (props) => {
         })
         .then(res => {
             if (res.data) {
-                setIssues(res.data)
+                setCurrentPage(1);
+                setIssues(res.data);
             } 
         })
         .catch(err => console.log(err))
