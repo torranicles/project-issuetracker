@@ -18,18 +18,28 @@ class App extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleProjectSearch = this.handleProjectSearch.bind(this);
         this.handleViewForm = this.handleViewForm.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
         this.handleCloseForm = this.handleCloseForm.bind(this);
     }
+
     handleViewForm() {
         this.setState({
             viewForm: true
         })
     }
 
+    handleToggle() { //for 768px and lower viewports
+        this.setState({
+            viewForm: true
+        });
+        document.getElementById('left-panel').classList.add('d-none');
+    }
+
     handleCloseForm() {
         this.setState({
             viewForm: false
-        })
+        });
+        document.getElementById('left-panel').classList.remove('d-none');
     }
 
     handleSearchChange(e) {
@@ -100,6 +110,7 @@ class App extends React.Component {
                             handleProjectSearch={this.handleProjectSearch}
                             handleSearchChange={this.handleSearchChange}
                             handleViewForm={this.handleViewForm}
+                            handleToggle={this.handleToggle}
                             handleCloseForm={this.handleCloseForm}
                             handleFormChange={this.handleFormChange}
                             handleSubmit={this.handleSubmit}

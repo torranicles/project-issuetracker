@@ -5,7 +5,7 @@ import AddIssue from './AddIssue.js'
 const Home = (props) => {
     return (
         <div className={styles.bg}>
-                <div className="w-50 h-100">
+                <div className={styles.leftPanel} id="left-panel">
                     <h1 className={styles.head}>
                         issue tracker
                     </h1>
@@ -13,21 +13,21 @@ const Home = (props) => {
                         <input type="text" 
                             onChange={props.handleSearchChange} 
                             placeholder="Project name..."
-                            className="form-control"
-                            style={{
-                                padding: '5%',
-                                borderStyle: 'none'
-                            }}
+                            className={`form-control ${styles.searchBar}`}
                         />
-                        <input className="btn btn-primary px-5" type="submit" value="Search"/>
+                        <input className="btn btn-primary" id={styles.searchBtn} type="submit" value="Search"/>
                     </form>
-                    <div className={styles.addBtn} onClick={props.handleViewForm}>
-                        <i className="fas fa-folder-plus mr-2 text-primary"/><span>Start a new issue</span>
+                    <div className={styles.addBtn}>
+                        <i className="fas fa-folder-plus mr-2 text-primary"/>
+                        <span onClick={props.handleViewForm}>Start a new issue</span>
                     </div>
+                    <button  onClick={props.handleToggle} type="button" className="btn btn-primary" id={styles.newIssueBtn}>
+                            New Issue
+                    </button>
                 </div>
                 {
                     props.viewForm 
-                    ? <div className="d-flex align-items-center justify-content-center w-50 h-100">
+                    ? <div className={styles.modal} id="modal-form">
                         <div className={styles.formContainer}>
                             <AddIssue 
                                 newSubmit={true}

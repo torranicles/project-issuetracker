@@ -13,11 +13,11 @@
 
 .head {
     display: inline-block;
-    margin: 10% 0 0 10%;
-    font-size: 4rem;
+    margin: 15% 0 0 10%;
+    font-size: 3.5rem;
     font-family: 'Cantata One', serif;
-    color: rgb(82,34,208);
-    border-bottom: 4px solid rgb(82,34,208);
+    color: rgb(236, 96, 91);
+    border-bottom: 4px solid rgb(236, 96, 91);
     padding-bottom: 1%;
     width: 40vw;
 }
@@ -26,24 +26,153 @@
     display: flex;
     border-radius: .5rem;
     background-color: white;
-    margin: 20% 0 0 10%;
+    margin: 20% 0 10% 10%;
     width: 40vw;
 }
 
-.addBtn {
-    margin: 10% 0 0 10%;
-    font-size: 20px;
-    cursor: pointer;
+.searchBar {
+    padding: 5% !important;
+    border-style: none;
 }
 
-.addBtn:hover span {
+.addBtn {
+    margin-left: 10%;
+}
+
+span {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+span:hover {
     text-decoration: underline;
 }
 
 .formContainer {
     width: 70%;
-    background-color: rgba(26, 26, 26, 0.9);
+    background-color: rgba(236, 96, 91, 0.95);
     border-radius: .5rem;
-    padding: 3% 7%;
-    color: white;
+    padding: 2% 5%;
+    font-size: 18px;
+    color: black;
+}
+
+.leftPanel {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+}
+
+#newIssueBtn {
+    display: none;
+}
+
+#searchBtn {
+    padding: 0 5%;
+}
+
+@media only screen and (max-width: 1024px) {
+    .head {
+        margin: 35% 0 15% 10%;
+        font-size: 2.75rem;
+    }
+
+    .formContainer {
+        width: 90%;
+        margin-bottom: 20%;
+    }
+
+    .newIssue {
+        font-size: 26px;
+    }
+    
+    span {
+        text-shadow: -2px 2px #F5F5F5;
+    }
+}
+
+@media only screen and (max-width: 768px) {    
+    #newIssueBtn {
+        display: inline-block;
+    }
+
+    #searchBtn {
+        padding: 0 3%;
+    }
+
+    .addBtn {
+        display: none;
+    }
+
+    .leftPanel {
+        width: 100vw;
+        height: 70vh;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal {
+        width: 100%;
+    }
+
+    .formContainer {
+        width: 60%
+    }
+
+    .head {
+        margin: 0;
+        text-shadow: 2px 2px white;
+        font-size: 10vw;
+        border-bottom: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .searchContainer {
+        margin: 15% 0 5%;
+        width: 55%;
+    }
+
+    .searchBar {
+        padding: 5% 3% !important;
+    }
+
+    span {
+        color: rgb(0,123,255);
+        font-size: 24px;
+        font-weight: 600;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .bg {
+        background-position: center;
+    }
+    
+    .leftPanel {
+        height: 50vh;
+    }
+
+    .formContainer {
+        width: 80%;
+    }
+
+    .searchContainer {
+        width: 75%;
+    }
+
+    .head {
+        font-size: 12vw;
+    }
 }
