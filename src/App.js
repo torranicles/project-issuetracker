@@ -58,10 +58,9 @@ class App extends React.Component {
         .then(res => {
             if (res.data.length < 1) {
                 this.setState({
-                    message: 'Project name does not exist.'
+                    message: 'Project does not exist.'
                 })
             } else {
-                console.log(res);
                 this.props.history.push(`/projects-issues/${this.state.search}`);
             }
         })

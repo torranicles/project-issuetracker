@@ -17,6 +17,7 @@ const Home = (props) => {
                         />
                         <input className="btn btn-primary" id={styles.searchBtn} type="submit" value="Search"/>
                     </form>
+                    <p style={{color: 'red'}}>{ props.message ? props.message : '' }</p>
                     <div className={styles.addBtn}>
                         <i className="fas fa-folder-plus mr-2 text-primary"/>
                         <span onClick={props.handleViewForm}>Start a new issue</span>
