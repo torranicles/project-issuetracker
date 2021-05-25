@@ -39,17 +39,18 @@
     margin-left: 10%;
 }
 
-p {
+.message {
+    color: red;
     height: 7vh;
     margin-left: 10%;
 }
 
-span {
+.btnText {
     cursor: pointer;
     font-size: 20px;
 }
 
-span:hover {
+.btnText:hover {
     text-decoration: underline;
 }
 
@@ -100,7 +101,7 @@ span:hover {
         font-size: 26px;
     }
     
-    span {
+    .btnText {
         text-shadow: -2px 2px #F5F5F5;
     }
 }
@@ -114,7 +115,7 @@ span:hover {
         padding: 0 3%;
     }
 
-    p {
+    .message {
         margin: 0;
         height: 3vw;
     }
@@ -159,7 +160,7 @@ span:hover {
         padding: 5% 3% !important;
     }
 
-    span {
+    .btnText {
         color: rgb(0,123,255);
         font-size: 24px;
         font-weight: 600;
@@ -175,7 +176,7 @@ span:hover {
         height: 75vh;
     }
 
-    p {
+    .message {
         height: 10vw;
         text-shadow: 2px -2px white;
     }

@@ -49,11 +49,12 @@ const Issues = (props) => {
                         open: openCount,
                         closed: closedCount
                     })
+                    console.log('1')
                 } 
             })
             .catch(err => console.log(err))
     }
-
+    console.log(issueCount)
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber)
     }

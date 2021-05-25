@@ -12,7 +12,7 @@ const AddIssue = (props) => {
                 {
                     props.editForm
                     ? <h1 className="mb-3 text-center">Edit issue</h1>
-                    : <h1 className={`mb-3 text-center text-white ${HomeStyles.newIssue}`}>New issue</h1>
+                    : <h1 className={`mb-3 text-center ${props.newSubmit ? 'text-white' : 'text-dark'} ${HomeStyles.newIssue}`}>New issue</h1>
                 }
                 {
                     props.newSubmit //From adding issue on homepage

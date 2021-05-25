@@ -17,10 +17,10 @@ const Home = (props) => {
                         />
                         <input className="btn btn-primary" id={styles.searchBtn} type="submit" value="Search"/>
                     </form>
-                    <p style={{color: 'red'}}>{ props.message ? props.message : '' }</p>
+                    <p className={styles.message}>{ props.message ? props.message : '' }</p>
                     <div className={styles.addBtn}>
                         <i className="fas fa-folder-plus mr-2 text-primary"/>
-                        <span onClick={props.handleViewForm}>Start a new issue</span>
+                        <span className={styles.btnText} onClick={props.handleViewForm}>Start a new issue</span>
                     </div>
                     <button  onClick={props.handleToggle} type="button" className="btn btn-primary" id={styles.newIssueBtn}>
                             New Issue
