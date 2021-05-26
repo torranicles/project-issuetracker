@@ -49,12 +49,17 @@ const Issues = (props) => {
                         open: openCount,
                         closed: closedCount
                     })
-                    console.log('1')
-                } 
+                } else {
+                    setIssueCount({
+                        all: 0,
+                        open: 0,
+                        closed: 0
+                    })
+                }
             })
             .catch(err => console.log(err))
     }
-    console.log(issueCount)
+    
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber)
     }
@@ -84,18 +89,6 @@ const Issues = (props) => {
             } else {
                 if (res.data.length === 0 && isSearched) {
                     setIsSearched(false);
-                    setMessage('No issue found.');
-                    setTimeout(() => {
-                        setMessage('');
-                    }, 2500);
-                }
-                if (!isSearched) { //Prevent message from appearing when 1 searched item is deleted
-                    setMessage('No issue found.');
-                    setTimeout(() => {
-                        setMessage('');
-                    }, 2500);
-                } else if (res.data.length === 0 && isSearched) { //If a single searched item is deleted
-                    setIsSearched(false);
                     getIssues(true);
                 } else {
                     getIssues();
@@ -114,7 +107,7 @@ const Issues = (props) => {
         setEditForm(false);
         document.getElementById('form').reset();
     }
-
+    
     const handleNewSubmit = (e) => {
         e.preventDefault();
         axios.post(`/api/issues/${params.project}`, {
@@ -129,11 +122,9 @@ const Issues = (props) => {
                 setTimeout(() => {
                     setMessage('');
                 }, 2500);
-                document.getElementById('form').reset();
             } else {
                 setMessage(res.data[0])
             }
-            console.log(res.data)
         })
         .catch(err => console.log(err))
     }
@@ -178,7 +169,6 @@ const Issues = (props) => {
                 setTimeout(() => {
                     setMessage('');
                 }, 2500);
-                document.getElementById('form').reset();
             } else {
                 setMessage(res.data);
                 setTimeout(() => {
@@ -207,6 +197,7 @@ const Issues = (props) => {
             } else {
                 if (isSearched) {
                     searchIssue();
+                    getIssues()
                 } else {
                     getIssues();
                 }

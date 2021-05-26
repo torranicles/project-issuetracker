@@ -29,7 +29,7 @@ const AddIssue = (props) => {
                         name="issue_title" 
                         type="text" 
                         className="form-control" 
-                        defaultValue={props.title}
+                        defaultValue={props.editForm ? props.title : null}
                         required
                     />
                 </div>
@@ -40,7 +40,7 @@ const AddIssue = (props) => {
                         name="issue_text" 
                         type="text" 
                         className="form-control" 
-                        defaultValue={props.description}
+                        defaultValue={props.editForm ? props.description : null}
                         required
                     />
                 </div>
@@ -51,7 +51,7 @@ const AddIssue = (props) => {
                         name="status_text" 
                         type="text" 
                         className="form-control"
-                        defaultValue={props.status}
+                        defaultValue={props.editForm ? props.status : null}
                     />
                 </div>
                 <div className="form-group mb-2">
@@ -61,7 +61,7 @@ const AddIssue = (props) => {
                         name="created_by" 
                         type="text"
                         className="form-control" 
-                        defaultValue={props.created_by}
+                        defaultValue={props.editForm ? props.created_by : null}
                         required
                     />
                 </div>
@@ -72,7 +72,7 @@ const AddIssue = (props) => {
                         name="assigned_to" 
                         type="text" 
                         className="form-control"
-                        defaultValue={props.assigned_to}
+                        defaultValue={props.editForm ? props.assigned_to : null}
                     />
                 </div>
                 {
