@@ -5,7 +5,20 @@
     border: 1px solid darkgray !important;
     color: rgb(105, 105, 105);
     font-size: 1rem;
+    position: relative;
 }
+
+.triangle {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 30px 0;
+    right: 15px;
+    top: 1px;
+    position: absolute;
+    z-index: 100;
+  }
 
 .cardBox {
     padding: 0 5%;
@@ -72,5 +85,6 @@
     .cardBox {
         flex: 0 0 100% !important; 
         max-width: 100% !important;
+        margin-bottom: 7%;
     }
 }

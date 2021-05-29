@@ -5,16 +5,14 @@ import ReactTooltip from 'react-tooltip';
 const IssueCard = ({ issues, loading, ...props }) => {
     return issues.map(el => {
         return  <div className={`col-sm-3 float-left ${styles.cardBox}`}>
-                    <div className={`${styles.issueCard} card`}>
+                    <i className={styles.triangle} style={
+                        el.open 
+                        ? {borderColor: 'transparent #28A745 transparent transparent'} 
+                        : {borderColor: 'transparent #DC3545 transparent transparent'}}
+                    />
+                    <div className={`${styles.issueCard} card`} style={el.open ? {opacity: '1'} : {opacity: '.8'}}>
                         <div className="card-header p-0">
                             <div className={styles.titleContainer}>
-                                <i  className="fas fa-circle float-right pt-2"
-                                    style={{
-                                        fontSize: '.75rem',
-                                        color:  el.open
-                                                ? 'rgb(40,167,69)' //Green if open/true
-                                                : 'rgb(220,53,69)' //Red if closed/false
-                                    }}/>
                                 <h1 className={styles.title}>
                                     {el.issue_title}
                                 </h1>
