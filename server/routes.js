@@ -90,7 +90,7 @@ module.exports = function (app) {
                 } else if (confirm) { //true only if form is once submitted
                     saveIssue();
                 } else if (doc.length) {
-                    return res.send(`Project name already exists. Do you want to add issue on ${project}?`)
+                    return res.send(`Project name already exists. Add issue on ${project}?`)
                 } else {
                     saveIssue();
                 }

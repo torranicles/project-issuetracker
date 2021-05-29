@@ -39,6 +39,11 @@
     margin-left: 10%;
 }
 
+.confirmMessage {
+    min-height: 30px;
+    font-size: 16px;
+}
+
 .message {
     color: red;
     height: 7vh;

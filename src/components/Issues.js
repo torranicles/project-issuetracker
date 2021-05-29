@@ -179,6 +179,16 @@ const Issues = (props) => {
         .catch(err => console.log(err))
     }
 
+    const confirmDelete = () => {
+        document.getElementById('confirm-delete')
+            .classList.remove('d-none');
+    }
+
+    const cancelDelete= () => {
+        document.getElementById('confirm-delete')
+        .classList.add('d-none');
+    }
+
     const handleDelete = (e) => {
         axios.delete(`/api/issues/${params.project}`, {
             params: {
@@ -202,6 +212,7 @@ const Issues = (props) => {
                     getIssues();
                 }
             }
+            document.getElementById('confirm-delete').classList.add('d-none');
             setMessage(res.data);
             setTimeout(() => {
                 setMessage('');
@@ -317,9 +328,13 @@ const Issues = (props) => {
                     <span className="mr-2">Closed</span>
                 </div>
                 <div className={styles.messageBox}>
+                    <div className={`d-none ${styles.confirmDelete}`} id="confirm-delete">
+                        <button className="btn btn-outline-danger mx-3" onClick={handleDelete}>Confirm</button>
+                        <button onClick={cancelDelete} className="btn btn-link text-dark">Cancel</button>
+                    </div>
                     <span className="text-danger mr-3">
                         {
-                            message.includes("Issue deleted") || message.includes("No issue found")
+                            message.includes("deleted") || message.includes("No issue found")
                             ? message
                             : null
                         }
@@ -330,7 +345,7 @@ const Issues = (props) => {
                         data-target="#AddOrEdit" 
                         onClick={handleNewClick}
                     />
-                    <button className="btn btn-danger" onClick={handleDelete}>Delete all</button>
+                    <button className="btn btn-danger" onClick={confirmDelete}>Delete all</button>
                 </div>
             </div>
             {/* Issues */}
@@ -369,10 +384,7 @@ const Issues = (props) => {
                         </div>
                         <div className="p-3">
                             <span className="float-left text-success">
-                                {props.successMessage}
-                            </span>
-                            <span className="float-left text-danger">
-                                {props.failureMessage}
+                                {message && !message.includes('deleted') ? message : null}
                             </span>
                             <button type="button" className="btn btn-outline-secondary float-right" data-dismiss="modal">Close</button>
                         </div>

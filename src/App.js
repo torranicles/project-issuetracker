@@ -59,7 +59,12 @@ class App extends React.Component {
             if (res.data.length < 1) {
                 this.setState({
                     message: 'Project does not exist.'
-                })
+                });
+                setTimeout(() => {
+                    this.setState({
+                        message: ''
+                    })
+                }, 3000)
             } else {
                 this.props.history.push(`/projects-issues/${this.state.search}`);
             }

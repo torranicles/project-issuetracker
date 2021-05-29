@@ -75,13 +75,15 @@ const AddIssue = (props) => {
                         defaultValue={props.editForm ? props.assigned_to : null}
                     />
                 </div>
-                {
-                    props.message
-                    ? props.message
-                    : null
-                }
+                <div className={HomeStyles.confirmMessage}>
+                    {
+                        props.message && props.message.includes('Project name already exists.')
+                        ? props.message
+                        : null
+                    }
+                </div>
                 <div className="text-center">
-                    <button type="submit" className="btn btn-light">
+                    <button type="submit" className="btn btn-dark">
                         {
                             props.message && props.message.includes('Project name already exists.')
                             ? 'Confirm'
