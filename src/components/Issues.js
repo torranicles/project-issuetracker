@@ -20,7 +20,7 @@ const Issues = (props) => {
     const [message, setMessage] = useState('');
     const [isSearched, setIsSearched] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [issuesPerPage] = useState(16);
+    const [issuesPerPage] = useState(12);
     
     const lastIssueIndex = currentPage * issuesPerPage;
     const firstIssueIndex = lastIssueIndex - issuesPerPage;
@@ -342,7 +342,9 @@ const Issues = (props) => {
                     handleDelete={handleDelete}
                     handleClose={handleClose}/>
             </div>
-            <Pagination issuesPerPage={issuesPerPage} totalIssues={issues.length} paginate={paginate}/>
+            <div className={styles.pagination}>
+                <Pagination issuesPerPage={issuesPerPage} totalIssues={issues.length} paginate={paginate}/>
+            </div>
             {/* Modal for add/edit */}
             <div className="modal fade" id="AddOrEdit">
                 <div className="modal-dialog modal-dialog-centered">

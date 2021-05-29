@@ -57,6 +57,16 @@
     margin: 2% auto;
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination > ul > li {
+    margin: 3px
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }
