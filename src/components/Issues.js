@@ -260,11 +260,8 @@ const Issues = (props) => {
         <div>
             {/* Nav */}
             <nav className={`${styles.navigation} navbar navbar-expand-md navbar-dark`}>
-                <a className="navbar-brand" href="/">Project Issue Tracker</a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="navbar-nav d-flex justify-content-end w-100">
+                <a className={`navbar-brand ${styles.title}`} href="/">Project Issue Tracker</a>
+                <div className={`navbar-nav ${styles.searchBar}`}>
                     <form className="d-flex" id="search-form" onSubmit={handleIssueSearch}>
                         <input type="text" 
                             onChange={handleChange}
@@ -279,8 +276,20 @@ const Issues = (props) => {
                 </div>
             </nav>
             {/* Toolbar */}
-            <div className={styles.toolbar}>
-                <div className="w-50 h-100 d-flex align-items-center">
+            <div className={styles.toolbar}> 
+                {/* For 768px viewport and lower only */}
+                <div className={`${styles.dropdown} dropdown`}>
+                    <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        Sort
+                        <span className="caret"/>
+                    </button>
+                    <ul className="dropdown-menu">
+                        <li onClick={handleSortIssue}>({issueCount ? issueCount.all : "0"}) All issues</li>
+                        <li onClick={handleSortIssue} id="true">({issueCount ? issueCount.open : "0"}) Open</li>
+                        <li onClick={handleSortIssue} id="false">({issueCount ? issueCount.closed : "0"}) Closed</li>
+                    </ul>
+                </div>
+                <div className={styles.sortBox}>
                     <span className="mr-2">Sort: </span>
                     <span className={`${styles.issueCount} bg-dark`} onClick={handleSortIssue}>
                         {
@@ -289,7 +298,7 @@ const Issues = (props) => {
                             : "0"
                         }
                     </span>
-                    <span className="mr-3">All issues</span>
+                    <span className="mr-2">All issues</span>
                     <span className={`${styles.issueCount} bg-success`} onClick={handleSortIssue} id="true">
                         {
                             issueCount
@@ -297,7 +306,7 @@ const Issues = (props) => {
                             : "0"
                         }
                     </span>
-                    <span className="mr-3">Open</span>
+                    <span className="mr-2">Open</span>
                     <span className={`${styles.issueCount} bg-danger`} onClick={handleSortIssue} id="false">
                         {
                             issueCount
@@ -305,9 +314,9 @@ const Issues = (props) => {
                             : "0"
                         }
                     </span>
-                    <span className="mr-3">Closed</span>
+                    <span className="mr-2">Closed</span>
                 </div>
-                <div className="w-50 h-100 d-flex justify-content-end align-items-center">
+                <div className={styles.messageBox}>
                     <span className="text-danger mr-3">
                         {
                             message.includes("Issue deleted") || message.includes("No issue found")

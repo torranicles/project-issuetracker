@@ -7,6 +7,11 @@
     font-size: 1rem;
 }
 
+.cardBox {
+    padding: 0 5%;
+    margin-bottom: 3%; 
+}
+
 .titleContainer {
     margin: 0;
     background-color: rgb(66, 73, 78);
@@ -18,7 +23,6 @@
 }
 
 .title {
-    width: 70%;
     margin-bottom: 5px;
     font-size: 1.30rem;
     font-weight: 400;
@@ -44,4 +48,29 @@
     padding: 0 20px;
     color: rgb(110, 110, 110);
     word-wrap: break-word;
+}
+
+@media only screen and (max-width: 1024px) {
+    /* Override bootstrap col-sm-3 */
+    .cardBox { 
+        flex: 0 0 33.333333% !important; 
+        max-width: 33.333333% !important;
+        padding: 0 2%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    /* Override bootstrap col-sm-3 */
+    .cardBox {
+        flex: 0 0 50% !important; 
+        max-width: 50% !important;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    /* Override bootstrap col-sm-3 */
+    .cardBox {
+        flex: 0 0 100% !important; 
+        max-width: 100% !important;
+    }
 }

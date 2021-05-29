@@ -3,12 +3,37 @@
     padding: 1%;
 }
 
+.searchBar {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
 .toolbar {
     background-color: #FAFAFA;
     width: 100%;
     display: flex;
     align-items: center;
     padding: 5px 15px;
+}
+
+.dropdown {
+    display: none;
+}
+
+.sortBox {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.messageBox {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .issueCount {
@@ -47,4 +72,44 @@ background: #888;
 ::-webkit-scrollbar-thumb:hover {
 background: #555; 
 }
-  
+
+@media only screen and (max-width: 768px) {
+    .searchBar {
+        width: auto;
+        justify-content: flex-end;
+    }
+
+    .sortBox {
+        display: none;
+    }
+
+    .messageBox {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .dropdown {
+        display: inline-block;
+    }
+
+    .issueCount {
+        padding: 0 10px;
+    }
+    
+    li {
+        margin-left: 7%;
+        cursor: pointer;
+    }
+}
+
+@media only screen and (max-width: 475px) {
+    /* Override bootstrap */
+    .title {
+        display: none !important;
+    }
+
+    .navigation {
+        justify-content: flex-end !important;
+    }
+}
