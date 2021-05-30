@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 
 const IssueCard = ({ issues, loading, ...props }) => {
     return issues.map(el => {
-        return  <div className={`col-sm-3 float-left ${styles.cardBox}`}>
+        return  <div className={`col-sm-3 float-left ${styles.cardBox}`} key={el._id}>
                     <i className={styles.triangle} style={
                         el.open 
                         ? {borderColor: 'transparent #28A745 transparent transparent'} 
