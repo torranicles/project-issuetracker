@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import styles from '../Issues.module.css'
 import { useParams } from 'react-router-dom'
 import AddOrEdit from './AddIssue'
 import IssueCard from './IssueCard'
 import Pagination from './Pagination'
+import PulseLoader from 'react-spinners/PulseLoader'
 
-const Issues = (props) => {
+const Issues = () => {
     let params = useParams();
     const [loading, setLoading] = useState(false)
     const [issues, setIssues] = useState([]);
@@ -26,13 +27,14 @@ const Issues = (props) => {
     const firstIssueIndex = lastIssueIndex - issuesPerPage;
     const currentIssues = issues.slice(firstIssueIndex, lastIssueIndex);
 
-    const getIssues = (bool) => {
+    const getIssues = useCallback((bool) => {
         axios.get(`/api/issues/${params.project}`)
             .then(res => {
                 let openCount = 0;
                 let closedCount = 0;
                 if (!isSearched || bool) {
                     setIssues(res.data);
+                    setLoading(false);
                 }
 
                 //Set issue counts
@@ -58,13 +60,16 @@ const Issues = (props) => {
                 }
             })
             .catch(err => console.log(err))
-    }
+    }, [params.project]); //getIssues() does not need to run every time isSearched changes
     
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber)
     }
 
-    useEffect(getIssues, [isSearched, params.project]);
+    useEffect(() => {
+        setLoading(true);
+        getIssues();
+    }, [getIssues]); 
     
     const handleChange = (e) => {
         setFormData((prevProps) => ({
@@ -85,21 +90,23 @@ const Issues = (props) => {
                 setCurrentPage(1);
                 setIssues(res.data);
                 setIsSearched(true);
+                setLoading(false);
                 document.getElementById('search-form').reset();
-            } else {
-                if (res.data.length === 0 && isSearched) {
-                    setIsSearched(false);
-                    getIssues(true);
-                } else {
-                    getIssues();
-                }
-            }
+            } else if (res.data.length === 0) { 
+                setIssues([]);
+                setIsSearched(false);
+                setLoading(false);
+            } else if (res.data.length === 0 && isSearched) {
+                setIsSearched(false);
+                getIssues(true);
+            } 
         })
         .catch(err => console.log(err))
     }
 
     const handleIssueSearch = (e) => {
         e.preventDefault();
+        setLoading(true);
         searchIssue();
     }
 
@@ -249,9 +256,10 @@ const Issues = (props) => {
                 console.log(err)
             })
     }
-
+    
     const handleSortIssue = (e) => {
         setIsSearched(false);
+        setLoading(true);
         axios.get(`/api/issues/${params.project}`, {
             params: {
                 open: e.target.id
@@ -261,6 +269,7 @@ const Issues = (props) => {
             if (res.data) {
                 setCurrentPage(1);
                 setIssues(res.data);
+                setLoading(false);
             } 
         })
         .catch(err => console.log(err))
@@ -334,7 +343,7 @@ const Issues = (props) => {
                     </div>
                     <span className="text-danger mr-3">
                         {
-                            message.includes("deleted") || message.includes("No issue found")
+                            message.includes("deleted") || message.includes("No issues found")
                             ? message
                             : null
                         }
@@ -350,12 +359,22 @@ const Issues = (props) => {
             </div>
             {/* Issues */}
             <div className={styles.issuesContainer}>
-                <IssueCard 
-                    issues={currentIssues} 
-                    loading={loading} 
-                    handleEditClick={handleEditClick} 
-                    handleDelete={handleDelete}
-                    handleClose={handleClose}/>
+                {
+                    loading 
+                    ?   <div className="d-flex align-items-center justify-content-center" style={{height: '50vh'}}>
+                            <PulseLoader color={'white'}/>
+                        </div>
+                    : issues.length 
+                    ?   <IssueCard 
+                            issues={currentIssues} 
+                            handleEditClick={handleEditClick} 
+                            handleDelete={handleDelete}
+                            handleClose={handleClose}
+                        />
+                    :   <div className="d-flex align-items-center justify-content-center text-center" style={{height: '50vh'}}>
+                            No issues found. 
+                        </div>
+                }
             </div>
             <div className={styles.pagination}>
                 <Pagination issuesPerPage={issuesPerPage} totalIssues={issues.length} paginate={paginate}/>
@@ -384,7 +403,7 @@ const Issues = (props) => {
                         </div>
                         <div className="p-3">
                             <span className="float-left text-success">
-                                {message && !message.includes('deleted') ? message : null}
+                                {message && !message.includes('deleted') && !message.includes("No issues found") ? message : null}
                             </span>
                             <button type="button" className="btn btn-outline-secondary float-right" data-dismiss="modal">Close</button>
                         </div>
