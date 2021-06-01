@@ -18,41 +18,38 @@ const IssueCard = ({ issues, loading, ...props }) => {
                                 </h1>
                                 <div className="float-right">
                                     <i className="far fa-edit mr-2 text-primary"
+                                        style={!el.open ? {cursor:'default'} : {cursor:'pointer'}}
                                         data-tip="Edit" 
                                         data-for="edit"
+                                        data-tip-disable={el.open ? false : true} 
                                         data-toggle={
                                             el.open
                                             ? "modal"
                                             : null
                                         }
                                         data-target="#AddOrEdit" 
-                                        style={{
-                                            cursor: 'pointer'
-                                        }}
                                         id={el._id}
                                         onClick={
                                             el.open
                                             ? props.handleEditClick
                                             : null}/>
-                                    <ReactTooltip place="bottom" effect="solid" id="edit"/>
+                                    <ReactTooltip place="bottom" effect="solid" id="edit" disable={el.open ? false : true}/>
                                     <i className="far fa-trash-alt mr-2 text-danger" 
-                                        data-tip="Delete" 
+                                        style={!el.open ? {cursor:'default'} : {cursor:'pointer'}}
+                                        data-tip="Delete"
+                                        data-tip-disable={el.open ? false : true} 
                                         data-for="delete"
                                         id={el._id}
-                                        onClick={props.handleDelete}
-                                        style={{
-                                            cursor: 'pointer'
-                                        }}/>
-                                    <ReactTooltip place="bottom" effect="solid" id="delete"/>
+                                        onClick={props.handleDelete}/>
+                                    <ReactTooltip place="bottom" effect="solid" id="delete" disable={el.open ? false : true}/>
                                     <i className="far fa-times-circle text-success" 
+                                        style={!el.open ? {cursor:'default'} : {cursor:'pointer'}}
                                         onClick={props.handleClose} 
+                                        data-tip-disable={el.open ? false : true} 
                                         data-tip="Close" 
                                         data-for="close"
-                                        id={el._id}
-                                        style={{
-                                            cursor: 'pointer'
-                                        }}/>
-                                    <ReactTooltip place="bottom" effect="solid" id="close"/>
+                                        id={el._id}/>
+                                    <ReactTooltip place="bottom" effect="solid" id="close" disable={el.open ? false : true}/>
                                 </div>
                                 <span style={{
                                     color: "lightgray"
