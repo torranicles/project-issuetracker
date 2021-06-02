@@ -60,6 +60,7 @@ const Issues = () => {
                 }
             })
             .catch(err => console.log(err))
+            // eslint-disable-next-line
     }, [params.project]); //getIssues() does not need to run every time isSearched changes
     
     const paginate = (pageNumber) => {
