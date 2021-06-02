@@ -15,14 +15,13 @@ app.use(express.urlencoded({
 }));
 const path = require("path");
 app.use(express.static(path.resolve(__dirname + '/.././build')));
-const PORT = process.env.PORT;
 connection.once('open', () => {
     console.log('connected')
     app.get("/*", function (req, res) {
         res.sendFile(path.resolve(__dirname + '/.././build/index.html'));
     });
     routes(app)
-    app.listen(PORT, () => {
+    app.listen(process.env.PORT, () => {
         console.log(`Listening to port ${PORT}`)
     })
 }) 
