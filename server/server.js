@@ -14,12 +14,12 @@ app.use(express.urlencoded({
     extended: true
 }));
 const path = require("path");
-app.use(express.static(path.resolve(__dirname, '/.././build')));
+app.use(express.static(path.resolve(__dirname + '/.././build')));
 const PORT = process.env.PORT;
 connection.once('open', () => {
     console.log('connected')
     app.get("/*", function (req, res) {
-        res.sendFile(path.resolve(__dirname, '/.././build/index.html'));
+        res.sendFile(path.resolve(__dirname + '/.././build/index.html'));
     });
     routes(app)
     app.listen(PORT, () => {
