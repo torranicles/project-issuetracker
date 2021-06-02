@@ -15,7 +15,7 @@ app.use(express.urlencoded({
 }));
 const path = require("path");
 app.use(express.static(path.resolve(__dirname, '/.././build')));
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 connection.once('open', () => {
     console.log('connected')
     app.get("/*", function (req, res) {
