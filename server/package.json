@@ -4,15 +4,21 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.20",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "^4.0.3",
+    "web-vitals": "^1.1.0"
   }, 
   "engines": {
     "node": "14.x",
     "npm": "6.14.10"
   },
+  "postinstall": "npm run build",
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
