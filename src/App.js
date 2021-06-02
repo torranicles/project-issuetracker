@@ -86,13 +86,11 @@ class App extends React.Component {
                         message: res.data,
                         confirm: true //Used on second click/confirm
                     })
-                    console.log(res)
                 } else if (res.data[0].includes('Issue title')) {
                     this.setState({
                         message: res.data
                     })
                 } else {
-                    console.log(res)
                     this.setState({
                         confirm: false, //Set to initial state
                         message: ''
