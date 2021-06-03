@@ -39,6 +39,8 @@ const issueSchema = new mongoose.Schema({
         required: true,
         trim: true
     }
+}, {
+    collation: { locale: 'en', strength: 2 }
 })
 
 const Issue = mongoose.model('Issue', issueSchema);
