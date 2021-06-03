@@ -35,6 +35,7 @@ const IssueCard = ({ issues, loading, ...props }) => {
                                             : null}/>
                                     <ReactTooltip place="bottom" effect="solid" id="edit" disable={el.open ? false : true}/>
                                     <i className="far fa-trash-alt mr-2 text-danger" 
+                                        style={{cursor:'pointer'}}
                                         data-tip="Delete"
                                         data-for="delete"
                                         id={el._id}
