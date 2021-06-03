@@ -21,7 +21,6 @@
   }
 
 .cardBox {
-    padding: 0 5%;
     margin-bottom: 3%; 
 }
 
@@ -39,6 +38,7 @@
     margin-bottom: 5px;
     font-size: 1.30rem;
     font-weight: 400;
+    font-family: 'Inter';
 }
 
 .textContainer {
@@ -68,7 +68,6 @@
     .cardBox { 
         flex: 0 0 33.333333% !important; 
         max-width: 33.333333% !important;
-        padding: 0 2%;
     }
 }
 

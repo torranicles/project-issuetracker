@@ -3,6 +3,10 @@
     padding: 1%;
 }
 
+.title {
+    font-family: 'Inter';
+}
+
 .searchBar {
     display: flex;
     justify-content: flex-end;
@@ -15,6 +19,7 @@
     display: flex;
     align-items: center;
     padding: 5px 15px;
+    font-family: 'Inter';
 }
 
 .dropdown {

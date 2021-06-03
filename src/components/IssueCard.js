@@ -52,7 +52,8 @@ const IssueCard = ({ issues, loading, ...props }) => {
                                     <ReactTooltip place="bottom" effect="solid" id="close" disable={el.open ? false : true}/>
                                 </div>
                                 <span style={{
-                                    color: "lightgray"
+                                    color: "lightgray",
+                                    fontFamily: 'Quicksand'
                                 }}>
                                     {
                                         el.created_on !== el.updated_on

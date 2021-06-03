@@ -21,7 +21,8 @@ connection.once('open', () => {
     app.get("/*", function (req, res) {
         res.sendFile(path.resolve(__dirname + '/.././build/index.html'));
     });
+    const PORT = process.env.PORT || 5000;
+    app.listen(5000, () => {
+        console.log(`Listening to port ${process.env.PORT}`)
+    })
 });
-app.listen(process.env.PORT, () => {
-    console.log(`Listening to port ${process.env.PORT}`)
-})
