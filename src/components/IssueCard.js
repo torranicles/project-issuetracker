@@ -35,13 +35,11 @@ const IssueCard = ({ issues, loading, ...props }) => {
                                             : null}/>
                                     <ReactTooltip place="bottom" effect="solid" id="edit" disable={el.open ? false : true}/>
                                     <i className="far fa-trash-alt mr-2 text-danger" 
-                                        style={!el.open ? {cursor:'default'} : {cursor:'pointer'}}
                                         data-tip="Delete"
-                                        data-tip-disable={el.open ? false : true} 
                                         data-for="delete"
                                         id={el._id}
                                         onClick={props.handleDelete}/>
-                                    <ReactTooltip place="bottom" effect="solid" id="delete" disable={el.open ? false : true}/>
+                                    <ReactTooltip place="bottom" effect="solid" id="delete"/>
                                     <i className="far fa-times-circle text-success" 
                                         style={!el.open ? {cursor:'default'} : {cursor:'pointer'}}
                                         onClick={props.handleClose} 
