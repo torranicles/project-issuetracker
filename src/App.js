@@ -91,6 +91,7 @@ class App extends React.Component {
                         message: res.data
                     })
                 } else {
+                    this.props.history.push(`/projects-issues/${this.state.project}`)
                     this.setState({
                         confirm: false, //Set to initial state
                         message: ''

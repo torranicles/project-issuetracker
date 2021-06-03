@@ -35,7 +35,7 @@ const AddIssue = (props) => {
                 </div>
                 <div className="form-group mb-2">
                     <label htmlFor="Description">Description:</label>
-                    <input 
+                    <textarea
                         onChange={props.handleChange} 
                         name="issue_text" 
                         type="text" 
