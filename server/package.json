@@ -16,6 +16,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "heroku-postbuild": "npm install npm && run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
