@@ -190,11 +190,19 @@ const Issues = () => {
     const confirmDelete = () => {
         document.getElementById('confirm-delete')
             .classList.remove('d-none');
+        document.getElementById('delete-all')
+            .classList.add('d-none');
+        document.getElementById('add-issue')
+            .classList.add('d-none');
     }
 
     const cancelDelete= () => {
         document.getElementById('confirm-delete')
-        .classList.add('d-none');
+            .classList.add('d-none');
+        document.getElementById('delete-all')
+            .classList.remove('d-none');
+        document.getElementById('add-issue')
+            .classList.remove('d-none');    
     }
 
     const handleDelete = (e) => {
@@ -221,6 +229,8 @@ const Issues = () => {
                 }
             }
             document.getElementById('confirm-delete').classList.add('d-none');
+            document.getElementById('delete-all').classList.remove('d-none');
+            document.getElementById('add-issue').classList.remove('d-none');
             setMessage(res.data);
             setTimeout(() => {
                 setMessage('');
@@ -338,7 +348,7 @@ const Issues = () => {
                     <span className="mr-2">Closed</span>
                 </div>
                 <div className={styles.messageBox}>
-                    <div className={`d-none ${styles.confirmDelete}`} id="confirm-delete">
+                    <div className="d-none" id="confirm-delete">
                         <button className="btn btn-outline-danger mx-3" onClick={handleDelete}>Confirm</button>
                         <button onClick={cancelDelete} className="btn btn-link text-dark">Cancel</button>
                     </div>
@@ -354,8 +364,9 @@ const Issues = () => {
                         data-toggle="modal" 
                         data-target="#AddOrEdit" 
                         onClick={handleNewClick}
+                        id="add-issue"
                     />
-                    <button className="btn btn-danger" onClick={confirmDelete}>Delete all</button>
+                    <button className="btn btn-danger" id="delete-all" onClick={confirmDelete}>Delete all</button>
                 </div>
             </div>
             {/* Issues */}
