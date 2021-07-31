@@ -10,7 +10,7 @@ class App extends React.Component {
         this.state = {
             confirm: false,
             search: '',
-            confirmMessage: '',
+            message: '',
             viewForm: false
         }
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -83,7 +83,7 @@ class App extends React.Component {
             .then(res => {
                 if (res.data.includes('exists.')) {
                     this.setState({
-                        confirmMessage: res.data,
+                        message: res.data,
                         confirm: true //Used on second click/confirm
                     })
                 } else if (res.data[0].includes('Issue title')) {
@@ -118,7 +118,6 @@ class App extends React.Component {
                             handleFormChange={this.handleFormChange}
                             handleSubmit={this.handleSubmit}
                             viewForm={this.state.viewForm}
-                            confirmMessage={this.state.confirmMessage}
                             message={this.state.message}
                         />} 
                     }/>
