@@ -79,6 +79,8 @@ const AddIssue = (props) => {
                     {
                         props.message && props.message.includes('Project name already exists.')
                         ? props.message
+                        : props.message && props.message.includes("at least 3 characters")
+                        ? <span className="text-danger">{props.message}</span>
                         : null
                     }
                 </div>
