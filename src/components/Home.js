@@ -17,7 +17,7 @@ const Home = (props) => {
                     />
                     <input className="btn btn-primary" id={styles.searchBtn} type="submit" value="Search" />
                 </form>
-                <p className={styles.message}>{props.message && !props.message.includes('already exists') ? props.message : ''}</p>
+                <p className={styles.message}>{props.message && props.message.includes('does not exist') ? props.message : ''}</p>
                 <div className={styles.addBtn}>
                     <i className="fas fa-folder-plus mr-2 text-primary" />
                     <span className={styles.btnText} onClick={props.handleViewForm}>Start a new issue</span>
