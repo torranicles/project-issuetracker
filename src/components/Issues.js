@@ -415,10 +415,8 @@ const Issues = () => {
                         </div>
                         <div className="p-3">
                             {
-                                message && message.includes("edited") || message.includes("added") //Success
-                                ? <span className="float-left text-success">{message}</span> 
-                                : message && message.includes("at least 3 characters")
-                                ? <span className="float-left text-danger">{message}</span> 
+                                message && message.includes("edited") || message.includes("added")
+                                ? <span className="float-left text-success">{message}</span>
                                 : null
                             }
                             <button type="button" className="btn btn-outline-secondary float-right" data-dismiss="modal">Close</button>
