@@ -285,7 +285,7 @@ const Issues = () => {
         })
         .catch(err => console.log(err))
     }   
-    
+    console.log(message)
     let { issue_title, issue_text, created_by, assigned_to, status_text } = formData;
     return (
         <div>
