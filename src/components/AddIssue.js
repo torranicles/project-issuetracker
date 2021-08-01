@@ -78,8 +78,8 @@ const AddIssue = (props) => {
                 <div className={HomeStyles.confirmMessage}>
                     {
                         
-                        props.message && props.message.includes("at least 3 characters")
-                        ? <span className="text-danger">{props.message}</span>
+                        props.flashMessage && props.flashMessage.includes("at least 3 characters")
+                        ? <span className="text-danger">{props.flashMessage}</span>
                         : props.message && props.message.includes('Project name already exists.')
                         ? props.message
                         : null

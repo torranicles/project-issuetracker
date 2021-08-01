@@ -11,6 +11,7 @@ class App extends React.Component {
             confirm: false,
             search: '',
             message: '',
+            flashMessage: '',
             viewForm: false
         }
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -58,11 +59,11 @@ class App extends React.Component {
         .then(res => {
             if (res.data.length < 1) {
                 this.setState({
-                    message: 'Project does not exist.'
+                    flashMessage: 'Project does not exist.'
                 });
                 setTimeout(() => {
                     this.setState({
-                        message: ''
+                        flashMessage: ''
                     })
                 }, 3000)
             } else {
@@ -86,10 +87,16 @@ class App extends React.Component {
                         message: res.data,
                         confirm: true //Used on second click/confirm
                     })
-                } else if (res.data[0].includes('Issue title')) {
+                } else if (res.data[0].includes('Issue title')) { //Validation error
                     this.setState({
-                        message: res.data
-                    })
+                        message: '',
+                        flashMessage: res.data
+                    });
+                    setTimeout(() => {
+                        this.setState({
+                            flashMessage: ''
+                        })
+                    }, 3000)
                 } else {
                     this.props.history.push(`/projects-issues/${this.state.project}`)
                     this.setState({
@@ -118,6 +125,7 @@ class App extends React.Component {
                             handleFormChange={this.handleFormChange}
                             handleSubmit={this.handleSubmit}
                             viewForm={this.state.viewForm}
+                            flashMessage={this.state.flashMessage}
                             message={this.state.message}
                         />} 
                     }/>
