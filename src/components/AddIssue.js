@@ -25,21 +25,11 @@ const AddIssue = (props) => {
                 <div className="form-group mb-2">
                     <label htmlFor="Issue title">Issue title:</label>
                     <input 
-                        className={
-                            props.flashMessage && props.flashMessage == "Issue title must be at least 3 characters."
-                            ? HomeStyles.validate
-                            : ''
-                        }
                         onChange={props.handleChange} 
                         name="issue_title" 
                         type="text" 
                         className="form-control" 
                         defaultValue={props.editForm ? props.title : null}
-                        placeholder={
-                            props.flashMessage && props.flashMessage == "Issue title must be at least 3 characters."
-                            ? props.flashMessage
-                            : null
-                        }
                         required
                     />
                 </div>
@@ -87,7 +77,12 @@ const AddIssue = (props) => {
                 </div>
                 <div className={HomeStyles.confirmMessage}>
                     {
-                        props.message && props.message.includes('Project name already exists.')
+                        props.flashMessage && props.flashMessage == "Issue title must be at least 3 characters."
+                        ? props.flashMessage
+                        : props.message && props.message.includes('Project name already exists.') 
+                            && props.flashMessage == "Issue title must be at least 3 characters."
+                        ? props.flashMessage
+                        : props.message && props.message.includes('Project name already exists.')
                         ? props.message
                         : null
                     }
