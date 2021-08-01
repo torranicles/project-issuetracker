@@ -131,7 +131,10 @@ const Issues = () => {
                     setMessage('');
                 }, 2500);
             } else {
-                setMessage(res.data[0])
+                setMessage(res.data[0]);
+                setTimeout(() => {
+                    setMessage('');
+                }, 2500);
             }
         })
         .catch(err => console.log(err))
@@ -158,6 +161,10 @@ const Issues = () => {
 
     const handleEditSubmit = (e) => {
         e.preventDefault();
+        if (formData.issue_title.length < 3) {
+            setMessage("Issue title must be at least 3 characters.")
+            return false;
+        }
         axios.put(`/api/issues/${params.project}`, {
             ...formData,
             project: params.project

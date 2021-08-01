@@ -107,11 +107,7 @@ module.exports = function (app) {
             updates['updated_on'] = new Date();
             
             Issue.findByIdAndUpdate(req.query.id, updates, { new: true }, (error, data) => {
-                if (error) {
-                    if (error.name == 'ValidationError') {
-                        return res.send(Object.values(err.errors).map(val => val.message))
-                    }
-                } else if (data) {
+                if (data) {
                     return res.send("Issue successfully edited.");
                 } else {
                     return res.send("Failed to edit issue.");
