@@ -1,201 +1,209 @@
 .bg {
-    min-height: 100vh;
-    width: 100vw;
-    margin: 0;
-    background-image: url('./img/plan.png');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: bottom right; 
-    background-size: 100vh;
-    background-color: #f5f5f5;
-    display: flex;
-    align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  background-image: url("./img/plan.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: bottom right;
+  background-size: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
 }
 
 .head {
-    display: inline-block;
-    margin-left: 10%;
-    font-size: 3.5rem;
-    font-family: 'Cantata One', serif;
-    color: rgb(236, 96, 91);
-    border-bottom: 4px solid rgb(236, 96, 91);
-    padding-bottom: 1%;
-    width: 40vw;
+  display: inline-block;
+  margin-left: 10%;
+  font-size: 3.5rem;
+  font-family: "Cantata One", serif;
+  color: rgb(236, 96, 91);
+  border-bottom: 4px solid rgb(236, 96, 91);
+  padding-bottom: 1%;
+  width: 40vw;
 }
 
 .searchContainer {
-    display: flex;
-    border-radius: .5rem;
-    background-color: white;
-    margin: 20% 0 2% 10%;
-    width: 40vw;
+  display: flex;
+  border-radius: 0.5rem;
+  background-color: white;
+  margin: 20% 0 2% 10%;
+  width: 40vw;
 }
 
 .searchBar {
-    padding: 5% !important;
-    border-style: none;
+  padding: 5% !important;
+  border-style: none;
 }
 
 .addBtn {
-    margin-left: 10%;
+  margin-left: 10%;
 }
 
 .confirmMessage {
-    min-height: 30px;
-    font-size: 16px;
+  min-height: 30px;
+  font-size: 16px;
 }
 
 .message {
-    color: red;
-    height: 7vh;
-    margin-left: 10%;
+  color: red;
+  height: 7vh;
+  margin-left: 10%;
 }
 
 .btnText {
-    cursor: pointer;
-    font-size: 20px;
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .btnText:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+.validate {
+  box-shadow: 0 0 7px red;
+}
+
+.validate:focus {
+  box-shadow: none;
 }
 
 .formContainer {
-    width: 70%;
-    background-color: rgba(236, 96, 91, 0.95);
-    border-radius: .5rem;
-    padding: 2% 5%;
-    font-size: 18px;
-    color: black;
+  width: 70%;
+  background-color: rgba(236, 96, 91, 0.95);
+  border-radius: 0.5rem;
+  padding: 2% 5%;
+  font-size: 18px;
+  color: black;
 }
 
 .leftPanel {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
 }
 
 #newIssueBtn {
-    display: none;
+  display: none;
 }
 
 #searchBtn {
-    padding: 0 5%;
+  padding: 0 5%;
 }
 
 @media only screen and (max-width: 1024px) {
-    .head {
-        margin: 0 0 15% 10%;
-        font-size: 2.75rem;
-    }
+  .head {
+    margin: 0 0 15% 10%;
+    font-size: 2.75rem;
+  }
 
-    .formContainer {
-        width: 90%;
-    }
+  .formContainer {
+    width: 90%;
+  }
 
-    .newIssue {
-        font-size: 26px;
-    }
-    
-    .btnText {
-        text-shadow: -2px 2px #F5F5F5;
-    }
+  .newIssue {
+    font-size: 26px;
+  }
+
+  .btnText {
+    text-shadow: -2px 2px #f5f5f5;
+  }
 }
 
-@media only screen and (max-width: 768px) {    
-    #newIssueBtn {
-        display: inline-block;
-    }
+@media only screen and (max-width: 768px) {
+  #newIssueBtn {
+    display: inline-block;
+  }
 
-    #searchBtn {
-        padding: 0 3%;
-    }
+  #searchBtn {
+    padding: 0 3%;
+  }
 
-    .message {
-        margin: 0;
-        height: 3vw;
-    }
+  .message {
+    margin: 0;
+    height: 3vw;
+  }
 
-    .addBtn {
-        display: none;
-    }
+  .addBtn {
+    display: none;
+  }
 
-    .leftPanel {
-        width: 100vw;
-        height: 70vh;
-        justify-content: center;
-        align-items: center;
-    }
+  .leftPanel {
+    width: 100vw;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .modal {
-        width: 100%;
-    }
+  .modal {
+    width: 100%;
+  }
 
-    .formContainer {
-        width: 60%
-    }
+  .formContainer {
+    width: 60%;
+  }
 
-    .head {
-        margin: 0;
-        text-shadow: 2px 2px white;
-        font-size: 10vw;
-        border-bottom: 0;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  .head {
+    margin: 0;
+    text-shadow: 2px 2px white;
+    font-size: 10vw;
+    border-bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .searchContainer {
-        margin-top: 15%;
-        margin-bottom: 1%;
-        width: 55%;
-    }
+  .searchContainer {
+    margin-top: 15%;
+    margin-bottom: 1%;
+    width: 55%;
+  }
 
-    .searchBar {
-        padding: 5% 3% !important;
-    }
+  .searchBar {
+    padding: 5% 3% !important;
+  }
 
-    .btnText {
-        color: rgb(0,123,255);
-        font-size: 24px;
-        font-weight: 600;
-    }
+  .btnText {
+    color: rgb(0, 123, 255);
+    font-size: 24px;
+    font-weight: 600;
+  }
 }
 
 @media only screen and (max-width: 600px) {
-    .bg {
-        background-position: center;
-    }
-    
-    .leftPanel {
-        height: 75vh;
-    }
+  .bg {
+    background-position: center;
+  }
 
-    .message {
-        height: 10vw;
-        text-shadow: 2px -2px white;
-    }
+  .leftPanel {
+    height: 75vh;
+  }
 
-    .formContainer {
-        width: 80%;
-    }
+  .message {
+    height: 10vw;
+    text-shadow: 2px -2px white;
+  }
 
-    .searchContainer {
-        width: 75%;
-    }
+  .formContainer {
+    width: 80%;
+  }
 
-    .head {
-        font-size: 12vw;
-        margin-bottom: 10%;
-    }
+  .searchContainer {
+    width: 75%;
+  }
+
+  .head {
+    font-size: 12vw;
+    margin-bottom: 10%;
+  }
 }
