@@ -417,6 +417,8 @@ const Issues = () => {
                             {
                                 message && message.includes("edited") || message.includes("added")
                                 ? <span className="float-left text-success">{message}</span>
+                                : message && message == "Issue title must be at least 3 characters."
+                                ? <span className="float-left text-danger">{message}</span>
                                 : null
                             }
                             <button type="button" className="btn btn-outline-secondary float-right" data-dismiss="modal">Close</button>
